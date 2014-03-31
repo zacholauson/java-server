@@ -6,10 +6,11 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Server {
-    private static Integer      port;
-    private static String       directory;
-    private static ServerSocket serverSocket;
-    private static ICallable    appHandler;
+    private static Integer         port;
+    private static String          directory;
+    private static ServerSocket    serverSocket;
+    private static ICallable       appHandler;
+    private static ExecutorService executor;
 
     public static Integer      getPort()         { return port; }
     public static String       getDirectory()    { return directory; }
@@ -21,8 +22,7 @@ public class Server {
         directory    = _directory;
         serverSocket = newServerSocket(port);
         appHandler   = _appHandler;
-
-        ExecutorService executor = Executors.newFixedThreadPool(8);
+        executor     = newThreadPool();
 
         while(!serverSocket.isClosed()) {
             Socket socket = new Socket();
@@ -36,15 +36,19 @@ public class Server {
         }
     }
 
-    public static ConnectionWrapper wrapConnection(Socket socket, ICallable appHandler) throws Exception {
+    private static ExecutorService newThreadPool() {
+        return Executors.newFixedThreadPool(8);
+    }
+
+    private static ConnectionWrapper wrapConnection(Socket socket, ICallable appHandler) throws Exception {
         return new ConnectionWrapper(socket, appHandler);
     }
 
-    public static Runnable newThread(Socket socket, ICallable appHandler) throws Exception {
+    private static Runnable newThread(Socket socket, ICallable appHandler) throws Exception {
         return new Thread(wrapConnection(socket, appHandler));
     }
 
-    public static ServerSocket newServerSocket(int port) throws Exception {
+    private static ServerSocket newServerSocket(int port) throws Exception {
         return new ServerSocket(port);
     }
 }

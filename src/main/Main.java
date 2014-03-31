@@ -9,7 +9,7 @@ public class Main {
     }
 
     private static void announceServerInitialization(int _port, String _directory) {
-        System.out.println("Server starting on port: " + _port +
+        System.out.println("Server starting on port: " + _port + "\n" +
                            "Serving: " + _directory);
     }
 

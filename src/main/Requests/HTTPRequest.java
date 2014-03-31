@@ -16,22 +16,22 @@ public class HTTPRequest implements IRequest {
     private String                  method;
     private String                  route;
 
-    public String headerString()             { return headerString; }
-    public HashMap<String, String> headers() { return headers; }
-    public String body()                     { return body; }
-    public String method()                   { return method; }
-    public String route()                    { return route; }
+    public String getHeaderString()             { return headerString; }
+    public HashMap<String, String> getHeaders() { return headers; }
+    public String getBody()                     { return body; }
+    public String getMethod()                   { return method; }
+    public String getRoute()                    { return route; }
 
     public HTTPRequest(InputStream _input) throws IOException {
         this.input        = getBufferedInput(_input);
-        this.headerString = getHeaderString();
-        this.headers      = getHeadersHash();
-        this.body         = getBody();
-        this.method       = getMethod();
-        this.route        = getRoute();
+        this.headerString = parseHeaderString();
+        this.headers      = parseHeadersHash();
+        this.body         = parseBody();
+        this.method       = parseMethod();
+        this.route        = parseRoute();
     }
 
-    private String getHeaderString() throws IOException {
+    private String parseHeaderString() throws IOException {
         StringBuilder requestHeaders = new StringBuilder();
         String readLine = input.readLine();
         while (!readLine.equals("") && readLine != null) {
@@ -41,7 +41,7 @@ public class HTTPRequest implements IRequest {
         return requestHeaders.toString();
     }
 
-    private HashMap<String, String> getHeadersHash() {
+    private HashMap<String, String> parseHeadersHash() {
         HashMap<String, String> headers = new HashMap<String, String>();
         String[] headerStrings = headerString.split("\r\n");
         for (String header : headerStrings) {
@@ -51,7 +51,7 @@ public class HTTPRequest implements IRequest {
         return headers;
     }
 
-    private String getBody() throws IOException {
+    private String parseBody() throws IOException {
         StringBuilder body = new StringBuilder();
         String length = headers.get("Content-Length");
         if (length != null) {
@@ -62,7 +62,7 @@ public class HTTPRequest implements IRequest {
         return body.toString();
     }
 
-    private String getMethod() {
+    private String parseMethod() {
         Pattern pattern = Pattern.compile("^GET|POST|PUT|DELETE|OPTIONS|PATCH");
         Matcher matcher = pattern.matcher(headerString);
         if (matcher.find()) {
@@ -72,7 +72,7 @@ public class HTTPRequest implements IRequest {
         }
     }
 
-    private String getRoute() throws UnsupportedEncodingException {
+    private String parseRoute() throws UnsupportedEncodingException {
         Pattern pattern = Pattern.compile("(\\/[^\\s\\?]*)");
         Matcher matcher = pattern.matcher(headerString);
         if (matcher.find()) {
