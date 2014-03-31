@@ -10,7 +10,6 @@ import java.net.Socket;
 public class ConnectionWrapper implements Runnable {
     private Socket socket;
     private ICallable appHandler;
-    private IRequest requestType;
 
     public ConnectionWrapper(Socket _socket, ICallable _appHandler) {
         this.socket = _socket;
@@ -19,13 +18,17 @@ public class ConnectionWrapper implements Runnable {
 
     public void run() {
         try {
-            IRequest request = new HTTPRequest(socketInputStream());
+            IRequest request  = new HTTPRequest(socketInputStream());
             Response response = appHandler.call(request);
             Responder.respond(response, socketOutputStream());
-
-            socket.close();
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            try {
+                socket.close();
+            } catch ( Exception exception ) {
+                exception.printStackTrace();
+            }
         }
     }
 
