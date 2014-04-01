@@ -34,7 +34,7 @@ public class HTTPRequest implements IRequest {
     private String parseHeaderString() throws IOException {
         StringBuilder requestHeaders = new StringBuilder();
         String readLine = input.readLine();
-        while (!readLine.equals("") && readLine != null) {
+        while (readLine != null && !readLine.equals("")) {
             requestHeaders.append(readLine).append("\r\n");
             readLine = input.readLine();
         }
