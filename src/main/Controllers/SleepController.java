@@ -29,14 +29,14 @@ public class SleepController implements IController {
 
     private Response get(Response response) {
         sleep(1000);
-        response.setHeaders("HTTP/1.1 200 OK");
+        response.setHeaders("HTTP/1.1 200 OK\r\n\r\n");
         response.setBody("<!DOCTYPE html><html><body><h1>Just Slept</h1></body></html>");
         return response;
     }
 
     private Response defaultRoute(Response response) {
         sleep(1000);
-        response.setHeaders("HTTP/1.1 200 OK");
+        response.setHeaders("HTTP/1.1 200 OK\r\n\r\n");
         response.setBody("Just Slept");
         return response;
     }

@@ -8,6 +8,8 @@ public class Responder {
         PrintWriter output   = new PrintWriter(_output, false);
         DataOutputStream dos = new DataOutputStream(new BufferedOutputStream(_output));
 
+        dos.write(response.getHeaders().getBytes());
+
         if (response.getFile() != null) {
             FileInputStream fis = new FileInputStream(response.getFile());
             int element;

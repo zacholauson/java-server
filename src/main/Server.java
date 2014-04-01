@@ -1,8 +1,7 @@
 package main;
 
-import main.Controllers.RootController;
-import main.Controllers.SleepController;
 import main.Requests.HTTPRequest;
+import main.Controllers.*;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -50,8 +49,10 @@ public class Server {
     }
 
     private static HashMap<String, IController> buildRoutes(){
-        routesMap.put("/",      new RootController());
-        routesMap.put("/sleep", new SleepController());
+        routesMap.put("/",          new RootController());
+        routesMap.put("/sleep",     new SleepController());
+        routesMap.put("/404",       new FourOhFourController());
+        routesMap.put("/directory", new DirectoryController(DirectoryBuilder.build("/directory", "/")));
         return routesMap;
     }
 

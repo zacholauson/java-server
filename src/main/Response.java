@@ -17,6 +17,4 @@ public class Response {
     public String getHeaders() { return this.headers; }
     public File   getFile() { return this.file; }
     public String getBody() { return this.body; }
-
-    public boolean valid() { return ((headers != null) && ((file != null) || (body != null))); }
 }
