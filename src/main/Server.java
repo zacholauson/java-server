@@ -2,7 +2,11 @@ package main;
 
 import main.Controllers.RootController;
 import main.Controllers.SleepController;
+import main.Requests.HTTPRequest;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
@@ -32,14 +36,23 @@ public class Server {
 
         while(!serverSocket.isClosed()) {
             Socket socket = new Socket();
+
             try {
                 socket = serverSocket.accept();
-                executor.execute(newThread(socket, appHandler, routesMap));
+                IRequest request = new HTTPRequest(socketInputStream(socket));
+                OutputStream socketOutputStream = socketOutputStream(socket);
+                executor.execute(newThread(socket, appHandler, routesMap, request, socketOutputStream));
             } catch (Exception exception) {
                 exception.printStackTrace();
                 socket.close();
             }
         }
+    }
+
+    private static HashMap<String, IController> buildRoutes(){
+        routesMap.put("/",      new RootController());
+        routesMap.put("/sleep", new SleepController());
+        return routesMap;
     }
 
     private static ExecutorService newThreadPool() {
@@ -48,25 +61,31 @@ public class Server {
 
     private static ConnectionWrapper wrapConnection(Socket socket,
                                                     ICallable appHandler,
-                                                    HashMap<String, IController> routesMap) throws Exception {
+                                                    HashMap<String, IController> routesMap,
+                                                    IRequest request,
+                                                    OutputStream socketOutputStream) throws Exception {
 
-        return new ConnectionWrapper(socket, appHandler, routesMap);
+        return new ConnectionWrapper(socket, appHandler, routesMap, request, socketOutputStream);
     }
 
     private static Runnable newThread(Socket socket,
                                       ICallable appHandler,
-                                      HashMap<String, IController> routesMap) throws Exception {
+                                      HashMap<String, IController> routesMap,
+                                      IRequest request,
+                                      OutputStream socketOutputStream) throws Exception {
 
-        return new Thread(wrapConnection(socket, appHandler, routesMap));
+        return new Thread(wrapConnection(socket, appHandler, routesMap, request, socketOutputStream));
     }
 
     private static ServerSocket newServerSocket(int port) throws Exception {
         return new ServerSocket(port);
     }
 
-    private static HashMap<String, IController> buildRoutes(){
-        routesMap.put("/",      new RootController());
-        routesMap.put("/sleep", new SleepController());
-        return routesMap;
+    private static InputStream socketInputStream(Socket socket) throws IOException {
+        return socket.getInputStream();
+    }
+
+    private static OutputStream socketOutputStream(Socket socket) throws IOException {
+        return socket.getOutputStream();
     }
 }

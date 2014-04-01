@@ -23,12 +23,12 @@ public class HTTPRequest implements IRequest {
     public String getRoute()                    { return route; }
 
     public HTTPRequest(InputStream _input) throws IOException {
-        this.input        = getBufferedInput(_input);
-        this.headerString = parseHeaderString();
-        this.headers      = parseHeadersHash();
-        this.body         = parseBody();
-        this.method       = parseMethod();
-        this.route        = parseRoute();
+        input        = getBufferedInput(_input);
+        headerString = parseHeaderString();
+        headers      = parseHeadersHash();
+        body         = parseBody();
+        method       = parseMethod();
+        route        = parseRoute();
     }
 
     private String parseHeaderString() throws IOException {

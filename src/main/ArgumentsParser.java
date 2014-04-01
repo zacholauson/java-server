@@ -24,7 +24,12 @@ public class ArgumentsParser {
 
     public String getDirectory(){
         String directory = DEFAULT_DIR;
-        if (flagSet("-d")) { directory = getFlagValue("-d"); }
+
+        if (flagSet("-d")) {
+            directory = getFlagValue("-d");
+            directory = new File(System.getProperty("user.dir") + directory).getAbsolutePath();
+        }
+
         return new File(directory).getAbsolutePath();
     }
 

@@ -10,7 +10,7 @@ public class FourOhFourController implements IController {
     public FourOhFourController() {}
 
     public IController sendRequest (IRequest _request) {
-        this.request = _request;
+        request = _request;
         return this;
     }
 
@@ -25,7 +25,7 @@ public class FourOhFourController implements IController {
                 response = post(response);
                 break;
             default:
-                response = null;
+                response = defaultRoute(response);
                 break;
         }
 
@@ -34,11 +34,17 @@ public class FourOhFourController implements IController {
 
     private Response get(Response response) {
         response.setHeaders("HTTP/1.1 404 Not Found");
-        response.setBody("<html><body><h1>404 Not Found</h1></body></html>");
+        response.setBody("<!DOCTYPE html><html><body><h1>404 Not Found</h1></body></html>");
         return response;
     }
 
     private Response post(Response response) {
+        response.setHeaders("HTTP/1.1 404 Not Found");
+        response.setBody("Not Found");
+        return response;
+    }
+
+    private Response defaultRoute(Response response) {
         response.setHeaders("HTTP/1.1 404 Not Found");
         response.setBody("Not Found");
         return response;

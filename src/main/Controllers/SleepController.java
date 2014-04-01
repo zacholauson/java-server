@@ -30,7 +30,7 @@ public class SleepController implements IController {
     private Response get(Response response) {
         sleep(1000);
         response.setHeaders("HTTP/1.1 200 OK");
-        response.setBody("<html><body><h1>Just Slept</h1></body></html>");
+        response.setBody("<!DOCTYPE html><html><body><h1>Just Slept</h1></body></html>");
         return response;
     }
 
@@ -44,8 +44,8 @@ public class SleepController implements IController {
     private void sleep(int nano) {
         try {
             Thread.sleep(nano);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception exception) {
+            exception.printStackTrace();
         }
     }
 }

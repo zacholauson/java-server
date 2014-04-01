@@ -3,6 +3,9 @@ package main.Controllers;
 import main.IController;
 import main.IRequest;
 import main.Response;
+import main.Server;
+
+import java.io.File;
 
 public class RootController implements IController {
     private IRequest request;
@@ -31,8 +34,16 @@ public class RootController implements IController {
     }
 
     private Response get(Response response) {
-        response.setHeaders("HTTP/1.1 200 OK");
-        response.setBody("<html><body><h1>Hello World</h1></body></html>");
+
+        String indexPage = new File(Server.getDirectory() + "/index.html").getAbsolutePath();
+
+        if (new File(indexPage).exists()) {
+            response.setHeaders("HTTP/1.1 200 OK");
+            response.setFile(new File(indexPage));
+        } else {
+            response = null;
+        }
+
         return response;
     }
 

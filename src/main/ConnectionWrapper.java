@@ -1,9 +1,5 @@
 package main;
 
-import main.Requests.HTTPRequest;
-
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.util.HashMap;
@@ -12,20 +8,28 @@ public class ConnectionWrapper implements Runnable {
     private Socket socket;
     private ICallable appHandler;
     private HashMap<String, IController> routesMap;
+    private IRequest request;
+    private OutputStream socketOutputStream;
 
-    public ConnectionWrapper(Socket _socket, ICallable _appHandler, HashMap<String, IController> _routesMap) {
-        this.socket = _socket;
-        this.appHandler = _appHandler;
-        this.routesMap = _routesMap;
+    public ConnectionWrapper(Socket _socket,
+                             ICallable _appHandler,
+                             HashMap<String, IController> _routesMap,
+                             IRequest _request,
+                             OutputStream _socketOutputStream) {
+
+        socket     = _socket;
+        appHandler = _appHandler;
+        routesMap  = _routesMap;
+        request    = _request;
+        socketOutputStream = _socketOutputStream;
     }
 
     public void run() {
         try {
-            IRequest request  = new HTTPRequest(socketInputStream());
             Response response = appHandler.call(request, routesMap);
-            Responder.respond(response, socketOutputStream());
-        } catch (Exception e) {
-            e.printStackTrace();
+            Responder.respond(response, socketOutputStream);
+        } catch (Exception exception) {
+            exception.printStackTrace();
         } finally {
             try {
                 socket.close();
@@ -33,13 +37,5 @@ public class ConnectionWrapper implements Runnable {
                 exception.printStackTrace();
             }
         }
-    }
-
-    private InputStream socketInputStream() throws IOException {
-        return socket.getInputStream();
-    }
-
-    private OutputStream socketOutputStream() throws IOException {
-        return socket.getOutputStream();
     }
 }
