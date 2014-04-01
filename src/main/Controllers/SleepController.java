@@ -4,8 +4,8 @@ import main.IController;
 import main.IRequest;
 import main.Response;
 
-public class RootController implements IController {
-    private IRequest request;
+public class SleepController implements IController {
+    public IRequest request;
 
     public IController sendRequest(IRequest _request) {
         request = _request;
@@ -19,11 +19,8 @@ public class RootController implements IController {
             case "GET":
                 response = get(response);
                 break;
-            case "POST":
-                response = post(response);
-                break;
             default:
-                response = null;
+                response = defaultRoute(response);
                 break;
         }
 
@@ -31,14 +28,24 @@ public class RootController implements IController {
     }
 
     private Response get(Response response) {
+        sleep(1000);
         response.setHeaders("HTTP/1.1 200 OK");
-        response.setBody("<html><body><h1>Hello World</h1></body></html>");
+        response.setBody("<html><body><h1>Just Slept</h1></body></html>");
         return response;
     }
 
-    private Response post(Response response) {
+    private Response defaultRoute(Response response) {
+        sleep(1000);
         response.setHeaders("HTTP/1.1 200 OK");
-        response.setBody(request.getBody());
+        response.setBody("Just Slept");
         return response;
+    }
+
+    private void sleep(int nano) {
+        try {
+            Thread.sleep(nano);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
