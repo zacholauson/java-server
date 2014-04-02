@@ -13,8 +13,8 @@ public class Responder {
         DataOutputStream dataOutputStream = new DataOutputStream(new BufferedOutputStream(_output));
 
         writeHeadersToOutputStream(dataOutputStream, response);
-        writeFileToOutstream(dataOutputStream, response);
-        writeBodyToOutputStream(dataOutputStream, response);
+        writeFileToOutstream(      dataOutputStream, response);
+        writeBodyToOutputStream(   dataOutputStream, response);
 
         dataOutputStream.flush();
         dataOutputStream.close();

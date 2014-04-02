@@ -1,5 +1,6 @@
 package main.Routing.Routes;
 
+import main.Requests.IRequest;
 import main.Response.IResponse;
 import main.Server;
 
@@ -12,7 +13,7 @@ public class FileRoute implements IRoute {
         filePath = _filePath;
     }
 
-    public IResponse buildResponse(IResponse response) {
+    public IResponse buildResponse(IRequest request, IResponse response) {
         response.setHeaders("HTTP/1.1 200 OK\r\n\r\n");
         response.setFile(new File(Server.getDirectory() + filePath).getAbsoluteFile());
         return response;

@@ -16,10 +16,10 @@ public class Router {
 
     public static IResponse route(IRequest request, IResponse response) {
         try {
-            response = routesMap.get(request.getMethod() + " " + request.getRoute()).buildResponse(response);
+            response = routesMap.get(request.getMethod() + " " + request.getRoute()).buildResponse(request, response);
         } catch (Exception e) {
             // find a way to pull concrete route out of here
-            response = new FourOhFourRoute().buildResponse(response);
+            response = new FourOhFourRoute().buildResponse(request, response);
         }
         return response;
     }

@@ -19,12 +19,14 @@ public class HTTPRequest implements IRequest {
     private String                  body;
     private String                  method;
     private String                  route;
+    private HashMap<String, String> params;
 
     public String getHeaderString()             { return headerString; }
     public HashMap<String, String> getHeaders() { return headers; }
     public String getBody()                     { return body; }
     public String getMethod()                   { return method; }
     public String getRoute()                    { return route; }
+    public HashMap<String, String> getParams()  { return params; }
 
     public HTTPRequest(InputStream _input) throws IOException {
         input        = getBufferedInput(_input);
@@ -33,6 +35,7 @@ public class HTTPRequest implements IRequest {
         body         = parseBody();
         method       = parseMethod();
         route        = parseRoute();
+        params       = parseParams();
     }
 
     private String parseHeaderString() throws IOException {
@@ -98,5 +101,57 @@ public class HTTPRequest implements IRequest {
 
     private InputStreamReader readInput(InputStream input) throws Exception {
         return new InputStreamReader(input, "UTF-8");
+    }
+
+    private HashMap<String, String> parseParams() {
+        if (parseURLParams() == null) {
+            return parsePOSTParams();
+        } else {
+            HashMap<String, String> params = parsePOSTParams();
+            params.putAll(parseURLParams());
+            return params;
+        }
+    }
+
+    private HashMap<String, String> parsePOSTParams() {
+        HashMap<String, String> params = new HashMap<>();
+        String[] baseParams = body.split("&");
+        for (String param : baseParams) {
+            String[] paramsKV = param.split("=");
+            try {
+                String key = paramsKV[0];
+                String value = URLDecoder.decode(paramsKV[paramsKV.length - 1], "UTF-8");
+                params.put(key, value);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return params;
+    }
+
+    private HashMap<String, String> parseURLParams() {
+        HashMap<String, String> queryString = new HashMap<>();
+        Pattern pattern = Pattern.compile("(?<=\\?)(\\S+)");
+        Matcher matcher = pattern.matcher(headerString);
+        if (matcher.find()) {
+            String[] paramQueries = matcher.group(1).split("&");
+            for (String paramQuery : paramQueries) {
+                String[] queryPair = paramQuery.split("=");
+                String key;
+                String value;
+                try {
+                    key = URLDecoder.decode(queryPair[0], "UTF-8");
+                    value = URLDecoder.decode(queryPair[queryPair.length - 1], "UTF-8");
+                    queryString.put(key, value);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        } else {
+            queryString = null;
+        }
+
+        return queryString;
     }
 }

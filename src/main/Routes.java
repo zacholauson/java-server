@@ -1,14 +1,8 @@
 package main;
 
 import main.Routing.Router;
-import main.Routing.Routes.FileRoute;
-import main.Routing.Routes.GetDirectoryRoute;
-import main.Routing.Routes.MethodNotAllowedRoute;
-import main.Routing.Routes.OptionsRoute;
-import main.Routing.Routes.PostFormData;
-import main.Routing.Routes.PutFormData;
-import main.Routing.Routes.RedirectRoute;
-import main.Routing.Routes.TextRoute;
+import main.Routing.Routes.*;
+import main.Routing.Routes.PostFormDataRoute;
 
 public class Routes {
     public static void initializeRoutes() {
@@ -20,8 +14,8 @@ public class Routes {
 
     public static void initializeCobSpecRoutes() {
         Router.addRoute("GET",     "/",               new GetDirectoryRoute(Server.getDirectory(), "/"));
-        Router.addRoute("POST",    "/form",           new PostFormData());
-        Router.addRoute("PUT",     "/form",           new PutFormData());
+        Router.addRoute("POST",    "/form",           new PostFormDataRoute());
+        Router.addRoute("PUT",     "/form",           new PutFormDataRoute());
         Router.addRoute("OPTIONS", "/method_options", new OptionsRoute("GET,HEAD,POST,OPTIONS,PUT"));
         Router.addRoute("GET",     "/file1",          new FileRoute("/file1"));
         Router.addRoute("GET",     "/image.jpeg",     new FileRoute("/image.jpeg"));
@@ -30,5 +24,7 @@ public class Routes {
         Router.addRoute("PUT",     "/file1",          new MethodNotAllowedRoute());
         Router.addRoute("POST",    "/text-file.txt",  new MethodNotAllowedRoute());
         Router.addRoute("GET",     "/redirect",       new RedirectRoute("http://localhost:5000/"));
+        Router.addRoute("GET",    "/parameters",      new GetParamsRoute());
+        Router.addRoute("GET", "/partial_content.txt", new FileRoute("/partial_content.txt"));
     }
 }

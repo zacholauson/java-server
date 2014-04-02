@@ -8,4 +8,5 @@ public interface IRequest {
     public String                  getBody();
     public String                  getMethod();
     public String                  getRoute();
+    public HashMap<String, String> getParams();
 }
