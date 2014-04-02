@@ -26,7 +26,7 @@ public class ArgumentsParser {
 
         if (flagSet("-d")) {
             directory = getFlagValue("-d");
-            directory = new File(System.getProperty("user.dir") + directory).getAbsolutePath();
+            directory = new File(directory).getAbsolutePath();
         }
 
         return new File(directory).getAbsolutePath();

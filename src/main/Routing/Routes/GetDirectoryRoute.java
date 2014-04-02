@@ -38,7 +38,7 @@ public class GetDirectoryRoute implements IRoute {
     }
 
     private String buildRelativePath(String directory, String file) {
-        return file.substring(directory.length());
+        return file.substring(directory.length() + 1);
     }
 
     private String buildATag(String path) {
