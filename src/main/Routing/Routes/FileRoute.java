@@ -6,7 +6,7 @@ import main.Server;
 import java.io.File;
 
 public class FileRoute implements IRoute {
-    private String   filePath;
+    private String filePath;
 
     public FileRoute(String _filePath) {
         filePath = _filePath;

@@ -11,18 +11,17 @@ public class ArgumentsParser {
     public static final String DEFAULT_DIR  = System.getProperty("user.dir");
     private String[] args;
 
-
-    public ArgumentsParser(String[] args){
+    public ArgumentsParser(String[] args) {
         this.args = args;
     }
 
-    public int getPort(){
+    public int getPort() {
         int port = DEFAULT_PORT;
         if (flagSet("-p")) { port = Integer.parseInt(getFlagValue("-p")); }
         return port;
     }
 
-    public String getDirectory(){
+    public String getDirectory() {
         String directory = DEFAULT_DIR;
 
         if (flagSet("-d")) {
@@ -33,12 +32,12 @@ public class ArgumentsParser {
         return new File(directory).getAbsolutePath();
     }
 
-    public boolean flagSet(String flag){
+    public boolean flagSet(String flag) {
         int index = Arrays.asList(args).indexOf(flag);
         return (index != -1);
     }
 
-    public int getFlagIndex(String flag){
+    public int getFlagIndex(String flag) {
         return Arrays.asList(args).indexOf(flag);
     }
 

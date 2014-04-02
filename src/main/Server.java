@@ -7,7 +7,7 @@ import main.Response.IResponse;
 import main.Response.Responses.Response;
 
 import main.Routing.Router;
-import main.Routing.Routes.DirectoryRoute;
+import main.Routing.Routes.GetDirectoryRoute;
 import main.Routing.Routes.TextRoute;
 import main.Routing.Routes.FileRoute;
 
@@ -20,11 +20,11 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Server {
-    private static Integer         port;
-    private static String          directory;
+    private static Integer port;
+    private static String  directory;
 
-    public static Integer      getPort()         { return port; }
-    public static String       getDirectory()    { return directory; }
+    public static Integer getPort()         { return port; }
+    public static String  getDirectory()    { return directory; }
 
     public static void start(int _port, String _directory) throws Exception {
         port         = _port;
@@ -33,12 +33,14 @@ public class Server {
         initializeRoutes();
 
         ServerSocket serverSocket = newServerSocket(port);
+        ExecutorService executor = newThreadPool();
+
         while(!serverSocket.isClosed()) {
             Socket socket = new Socket();
 
             try {
                 socket = serverSocket.accept();
-                newThreadPool().execute(newThread(socket, newRequest(socket), socketOutputStream(socket), newResponse()));
+                executor.execute(newThread(socket, newRequest(socket), socketOutputStream(socket), newResponse()));
             } catch (Exception exception) {
                 socket.close();
             }
@@ -48,11 +50,11 @@ public class Server {
     private static void initializeRoutes() {
         Router.addRoute("GET", "/",          new TextRoute("Hello World"));
         Router.addRoute("GET", "/image",     new FileRoute("/public/pic.png"));
-        Router.addRoute("GET", "/directory", new DirectoryRoute("/public"));
+        Router.addRoute("GET", "/directory", new GetDirectoryRoute(getDirectory(), "/public"));
     }
 
     private static ExecutorService newThreadPool() {
-        return Executors.newFixedThreadPool(8);
+        return Executors.newFixedThreadPool(16);
     }
 
     private static ConnectionWrapper wrapConnection(Socket socket, IRequest request, OutputStream socketOutputStream, IResponse response) throws Exception {

@@ -1,7 +1,5 @@
 package main.Response;
 
-import main.Response.IResponse;
-
 import java.io.BufferedOutputStream;
 import java.io.DataOutputStream;
 import java.io.FileInputStream;
@@ -11,24 +9,15 @@ import java.lang.Exception;
 
 public class Responder {
     public static void respond(IResponse response, OutputStream _output) throws Exception {
-        PrintWriter output   = new PrintWriter(_output, false);
-        DataOutputStream dos = new DataOutputStream(new BufferedOutputStream(_output));
+        PrintWriter output = new PrintWriter(_output, false);
+        DataOutputStream dataOutputStream = new DataOutputStream(new BufferedOutputStream(_output));
 
-        dos.write(response.getHeaders().getBytes());
+        writeHeadersToOutputStream(dataOutputStream, response);
+        writeFileToOutstream(dataOutputStream, response);
+        writeBodyToOutputStream(dataOutputStream, response);
 
-        if (filePresent(response)) {
-            FileInputStream fis = new FileInputStream(response.getFile());
-            int element;
-            while ((element = fis.read()) != -1) { dos.write(element); }
-            fis.close();
-        }
-
-        if (bodyPresent(response)) {
-            dos.write(response.getBody().getBytes());
-        }
-
-        dos.flush();
-        dos.close();
+        dataOutputStream.flush();
+        dataOutputStream.close();
         _output.flush();
         _output.close();
         output.flush();
@@ -41,5 +30,28 @@ public class Responder {
 
     private static boolean bodyPresent(IResponse response) {
         return response.getBody() != null;
+    }
+
+    private static void writeHeadersToOutputStream(DataOutputStream dataOutputStream, IResponse response) throws Exception {
+        dataOutputStream.write(response.getHeaders().getBytes());
+    }
+
+    private static void writeFileToOutstream(DataOutputStream dataOutputStream, IResponse response) throws Exception {
+        if (filePresent(response)) {
+            FileInputStream fis = new FileInputStream(response.getFile());
+
+            int element;
+            while ((element = fis.read()) != -1) {
+                dataOutputStream.write(element);
+            }
+
+            fis.close();
+        }
+    }
+
+    private static void writeBodyToOutputStream(DataOutputStream dataOutputStream, IResponse response) throws Exception {
+        if (bodyPresent(response)) {
+            dataOutputStream.write(response.getBody().getBytes());
+        }
     }
 }
