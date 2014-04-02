@@ -1,8 +1,12 @@
-package main.Requests;
+package main.Requests.Requests;
 
-import main.IRequest;
+import main.Requests.IRequest;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.regex.Matcher;

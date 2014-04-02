@@ -1,14 +1,15 @@
-package main;
+package main.Response.Responses;
+
+import main.Response.IResponse;
 
 import java.io.File;
 
-public class Response {
+public class Response implements IResponse {
     private String headers = null;
     private File file      = null;
     private String body    = null;
 
-    public Response() {
-    }
+    public Response() {}
 
     public void setHeaders(String headers) { this.headers = headers; }
     public void setFile(File file) { this.file = file; }

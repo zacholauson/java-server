@@ -1,4 +1,4 @@
-package main;
+package main.Requests;
 
 import java.util.HashMap;
 

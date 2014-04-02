@@ -1,81 +1,66 @@
 package main;
 
-import main.Requests.HTTPRequest;
-import main.Controllers.*;
+import main.Requests.Requests.HTTPRequest;
+import main.Requests.IRequest;
+
+import main.Response.IResponse;
+import main.Response.Responses.Response;
+
+import main.Routing.Router;
+import main.Routing.Routes.DirectoryRoute;
+import main.Routing.Routes.TextRoute;
+import main.Routing.Routes.FileRoute;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Server {
-    private static Integer                      port;
-    private static String                       directory;
-    private static ServerSocket                 serverSocket;
-    private static ICallable                    appHandler;
-    private static ExecutorService              executor;
-    private static HashMap<String, IController> routesMap = new HashMap<>();
+    private static Integer         port;
+    private static String          directory;
 
     public static Integer      getPort()         { return port; }
     public static String       getDirectory()    { return directory; }
-    public static ServerSocket getServerSocket() { return serverSocket; }
-    public static ICallable    getAppHandler()   { return appHandler; }
 
-    public static void start(int _port, String _directory, ICallable _appHandler) throws Exception {
+    public static void start(int _port, String _directory) throws Exception {
         port         = _port;
         directory    = _directory;
-        serverSocket = newServerSocket(port);
-        appHandler   = _appHandler;
-        executor     = newThreadPool();
-        routesMap    = buildRoutes();
 
+        initializeRoutes();
+
+        ServerSocket serverSocket = newServerSocket(port);
         while(!serverSocket.isClosed()) {
             Socket socket = new Socket();
 
             try {
                 socket = serverSocket.accept();
-                IRequest request = new HTTPRequest(socketInputStream(socket));
-                OutputStream socketOutputStream = socketOutputStream(socket);
-                executor.execute(newThread(socket, appHandler, routesMap, request, socketOutputStream));
+                newThreadPool().execute(newThread(socket, newRequest(socket), socketOutputStream(socket), newResponse()));
             } catch (Exception exception) {
-                exception.printStackTrace();
                 socket.close();
             }
         }
     }
 
-    private static HashMap<String, IController> buildRoutes(){
-        routesMap.put("/",          new RootController());
-        routesMap.put("/sleep",     new SleepController());
-        routesMap.put("/404",       new FourOhFourController());
-        routesMap.put("/directory", new DirectoryController(DirectoryBuilder.build("/directory", "/")));
-        return routesMap;
+    private static void initializeRoutes() {
+        Router.addRoute("GET", "/",          new TextRoute("Hello World"));
+        Router.addRoute("GET", "/image",     new FileRoute("/public/pic.png"));
+        Router.addRoute("GET", "/directory", new DirectoryRoute("/public"));
     }
 
     private static ExecutorService newThreadPool() {
         return Executors.newFixedThreadPool(8);
     }
 
-    private static ConnectionWrapper wrapConnection(Socket socket,
-                                                    ICallable appHandler,
-                                                    HashMap<String, IController> routesMap,
-                                                    IRequest request,
-                                                    OutputStream socketOutputStream) throws Exception {
-
-        return new ConnectionWrapper(socket, appHandler, routesMap, request, socketOutputStream);
+    private static ConnectionWrapper wrapConnection(Socket socket, IRequest request, OutputStream socketOutputStream, IResponse response) throws Exception {
+        return new ConnectionWrapper(socket, request, socketOutputStream, response);
     }
 
-    private static Runnable newThread(Socket socket,
-                                      ICallable appHandler,
-                                      HashMap<String, IController> routesMap,
-                                      IRequest request,
-                                      OutputStream socketOutputStream) throws Exception {
-
-        return new Thread(wrapConnection(socket, appHandler, routesMap, request, socketOutputStream));
+    private static Runnable newThread(Socket socket, IRequest request, OutputStream socketOutputStream, IResponse response) throws Exception {
+        return new Thread(wrapConnection(socket, request, socketOutputStream, response));
     }
 
     private static ServerSocket newServerSocket(int port) throws Exception {
@@ -88,5 +73,13 @@ public class Server {
 
     private static OutputStream socketOutputStream(Socket socket) throws IOException {
         return socket.getOutputStream();
+    }
+
+    private static IRequest newRequest(Socket socket) throws Exception {
+        return new HTTPRequest(socketInputStream(socket));
+    }
+
+    private static IResponse newResponse() {
+        return new Response();
     }
 }
