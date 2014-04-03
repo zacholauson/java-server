@@ -2,6 +2,7 @@ package main.Routing.Routes;
 
 import main.Requests.IRequest;
 import main.Response.IResponse;
+import main.Response.ResponseCodes;
 
 public class SleepRoute implements IRoute {
     Integer timeToSleep;
@@ -11,7 +12,7 @@ public class SleepRoute implements IRoute {
     }
 
     public IResponse buildResponse(IRequest request, IResponse response) {
-        response.setHeaders("HTTP/1.1 200 OK\r\n\r\n");
+        response.setHeaders(ResponseCodes.codeString(200) + "\r\n");
 
         try {
             Thread.sleep(timeToSleep);

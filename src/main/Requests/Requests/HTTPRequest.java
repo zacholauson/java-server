@@ -49,7 +49,7 @@ public class HTTPRequest implements IRequest {
     }
 
     private HashMap<String, String> parseHeadersHash() {
-        HashMap<String, String> headers = new HashMap<String, String>();
+        HashMap<String, String> headers = new HashMap<>();
         String[] headerStrings = headerString.split("\r\n");
         for (String header : headerStrings) {
             String[] headerPair = header.split(": ");
@@ -153,5 +153,21 @@ public class HTTPRequest implements IRequest {
         }
 
         return queryString;
+    }
+
+    public HashMap<String, Integer> getRange() {
+        HashMap<String, Integer> rangeMap = new HashMap<>();
+        Pattern pattern = Pattern.compile("((?<=\\nRange: bytes=)([^\\r]+))");
+        Matcher matcher = pattern.matcher(headerString);
+        if (matcher.find()) {
+            String[] range = matcher.group(1).split("-");
+            if (range.length == 2) {
+                rangeMap.put("Begin", Integer.parseInt(range[0]));
+                rangeMap.put("End",   Integer.parseInt(range[1]));
+                int length = rangeMap.get("End") - rangeMap.get("Begin") + 1;
+                rangeMap.put("Length", length);
+            }
+        }
+        return rangeMap;
     }
 }

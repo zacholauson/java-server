@@ -2,6 +2,7 @@ package main.Routing.Routes;
 
 import main.Requests.IRequest;
 import main.Response.IResponse;
+import main.Response.ResponseCodes;
 
 public class RedirectRoute implements IRoute {
     String redirectTo;
@@ -11,7 +12,7 @@ public class RedirectRoute implements IRoute {
     }
 
     public IResponse buildResponse(IRequest request, IResponse response) {
-        response.setHeaders("HTTP/1.1 301 Moved Permanently\r\n" +
+        response.setHeaders(ResponseCodes.codeString(301) +
                             "Location: " + redirectTo + "\r\n\r\n");
         response.setBody("<html><head><meta http-equiv='refresh' content='0 ; url=/'></head></html>");
         return response;

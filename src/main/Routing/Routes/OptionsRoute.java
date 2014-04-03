@@ -2,6 +2,7 @@ package main.Routing.Routes;
 
 import main.Requests.IRequest;
 import main.Response.IResponse;
+import main.Response.ResponseCodes;
 
 public class OptionsRoute implements IRoute {
     String options;
@@ -11,7 +12,7 @@ public class OptionsRoute implements IRoute {
     }
 
     public IResponse buildResponse(IRequest request, IResponse response) {
-        response.setHeaders("HTTP/1.1 200 OK\r\nAllow: " + options + "\r\n\r\n");
+        response.setHeaders(ResponseCodes.codeString(200) + "Allow: " + options + "\r\n\r\n" );
         return response;
     }
 }

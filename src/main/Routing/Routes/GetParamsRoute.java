@@ -2,6 +2,7 @@ package main.Routing.Routes;
 
 import main.Requests.IRequest;
 import main.Response.IResponse;
+import main.Response.ResponseCodes;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,7 +11,7 @@ public class GetParamsRoute implements IRoute {
     public GetParamsRoute() {}
 
     public IResponse buildResponse(IRequest request, IResponse response) {
-        response.setHeaders("HTTP/1.1 200 OK\r\n\r\n");
+        response.setHeaders(ResponseCodes.codeString(200) + "\r\n");
         try {
             StringBuilder keyValuePairs = new StringBuilder();
             HashMap<String, String> results = request.getParams();
