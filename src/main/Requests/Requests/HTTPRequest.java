@@ -13,13 +13,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class HTTPRequest implements IRequest {
-    private BufferedReader          input;
-    private String                  headerString;
-    private HashMap<String, String> headers;
-    private String                  body;
-    private String                  method;
-    private String                  route;
-    private HashMap<String, String> params;
+    private BufferedReader           input;
+    private String                   headerString;
+    private HashMap<String, String>  headers;
+    private String                   body;
+    private String                   method;
+    private String                   route;
+    private HashMap<String, String>  params;
+    private HashMap<String, Integer> range;
 
     public String getHeaderString()             { return headerString; }
     public HashMap<String, String> getHeaders() { return headers; }
@@ -27,6 +28,7 @@ public class HTTPRequest implements IRequest {
     public String getMethod()                   { return method; }
     public String getRoute()                    { return route; }
     public HashMap<String, String> getParams()  { return params; }
+    public HashMap<String, Integer> getRange()  { return range; }
 
     public HTTPRequest(InputStream _input) throws IOException {
         input        = getBufferedInput(_input);
@@ -36,6 +38,7 @@ public class HTTPRequest implements IRequest {
         method       = parseMethod();
         route        = parseRoute();
         params       = parseParams();
+        range        = parseRange();
     }
 
     private String parseHeaderString() throws IOException {
@@ -155,7 +158,7 @@ public class HTTPRequest implements IRequest {
         return queryString;
     }
 
-    public HashMap<String, Integer> getRange() {
+    private HashMap<String, Integer> parseRange() {
         HashMap<String, Integer> rangeMap = new HashMap<>();
         Pattern pattern = Pattern.compile("((?<=\\nRange: bytes=)([^\\r]+))");
         Matcher matcher = pattern.matcher(headerString);

@@ -9,7 +9,7 @@ public class FourOhFourRoute implements IRoute {
 
     public IResponse buildResponse(IRequest request, IResponse response) {
         response.setHeaders(ResponseCodes.codeString(404) + "\r\n");
-        response.setBody("<!DOCTYPE HTML><html><body><h1>Not Found</h1></body></html>");
+        response.setBody("<!DOCTYPE HTML><html><body><h1>Not Found</h1></body></html>".getBytes());
         return response;
     }
 }

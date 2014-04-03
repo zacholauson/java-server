@@ -19,7 +19,7 @@ public class GetParamsRoute implements IRoute {
                 keyValuePairs.append(entry.getKey() + " = " + entry.getValue());
                 keyValuePairs.append("<br>");
             }
-            response.setBody("<!DOCTYPE html><html><body>" + keyValuePairs.toString() + "</body></html>");
+            response.setBody(("<!DOCTYPE html><html><body>" + keyValuePairs.toString() + "</body></html>").getBytes());
         } catch (Exception exception) {
             System.out.println(exception);
         }

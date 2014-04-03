@@ -13,7 +13,7 @@ public class TextRoute implements IRoute {
 
     public IResponse buildResponse(IRequest request, IResponse response) {
         response.setHeaders(ResponseCodes.codeString(200) + "\r\n");
-        response.setBody("<!DOCTYPE HTML><html><body>" + textBody + "</body></html>");
+        response.setBody(("<!DOCTYPE HTML><html><body>" + textBody + "</body></html>").getBytes());
         return response;
     }
 }

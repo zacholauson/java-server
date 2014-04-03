@@ -17,13 +17,14 @@ public class GetDirectoryRoute implements IRoute {
 
     public IResponse buildResponse(IRequest request, IResponse response) {
         response.setHeaders(ResponseCodes.codeString(200) + "\r\n");
-        response.setBody(buildDirectory());
+        response.setBody(buildDirectoryMarkup());
         return response;
     }
 
-    private String buildDirectory() {
+    private byte[] buildDirectoryMarkup() {
         StringBuilder body = new StringBuilder();
         File directory = new File(baseDirectory + directoryPath);
+
         File[] listOfFiles = directory.listFiles();
 
         for(File file : listOfFiles) {
@@ -31,12 +32,11 @@ public class GetDirectoryRoute implements IRoute {
                 String relativeFilePath = buildRelativePath(directory.toString(), file.toString());
                 body.append("<html><body>");
                 body.append(buildATag(relativeFilePath));
-                body.append("<br>");
                 body.append("</body></html>");
             }
         }
 
-        return body.toString();
+        return body.toString().getBytes();
     }
 
     private String buildRelativePath(String directory, String file) {
@@ -44,6 +44,6 @@ public class GetDirectoryRoute implements IRoute {
     }
 
     private String buildATag(String path) {
-        return "<a href=" + path + ">" + path + "</a>";
+        return "<a href=" + path + ">" + path + "</a><br>";
     }
 }

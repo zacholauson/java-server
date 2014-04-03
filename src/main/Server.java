@@ -25,7 +25,7 @@ public class Server {
         port         = _port;
         directory    = _directory;
 
-//      Routes.initializeRoutes();
+//        Routes.initializeRoutes();
         Routes.initializeCobSpecRoutes();
 
         ServerSocket serverSocket = newServerSocket(port);

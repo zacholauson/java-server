@@ -20,7 +20,7 @@ public class SleepRoute implements IRoute {
             System.out.println(e);
         }
 
-        response.setBody("<!DOCTYPE html><html><body><h1>Just Slept</h1></body></html>");
+        response.setBody("<!DOCTYPE html><html><body><h1>Just Slept</h1></body></html>".getBytes());
         return response;
     }
 }

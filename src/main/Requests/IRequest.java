@@ -9,4 +9,5 @@ public interface IRequest {
     public String                  getMethod();
     public String                  getRoute();
     public HashMap<String, String> getParams();
+    public HashMap<String, Integer> getRange();
 }
