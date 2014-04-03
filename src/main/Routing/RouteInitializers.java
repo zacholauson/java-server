@@ -16,8 +16,8 @@ import main.Routing.Routes.TextRoute;
 
 import main.Server;
 
-public class RouteMappings {
-    public static void initializeRoutes() {
+public class RouteInitializers {
+    public static void basicRoutes() {
         Router.addRoute("GET",     "/",               new TextRoute("Hello World"));
         Router.addRoute("GET",     "/image",          new FileRoute(Server.getDirectory(), "/public/pic.png"));
         Router.addRoute("GET",     "/directory",      new GetDirectoryRoute(Server.getDirectory(), "/public"));
@@ -25,7 +25,7 @@ public class RouteMappings {
         Router.addRoute("GET",     "/sleep",          new SleepRoute(1000));
     }
 
-    public static void initializeCobSpecRoutes() {
+    public static void cobSpecRoutes() {
         Router.addRoute("GET",     "/",                    new GetDirectoryRoute(Server.getDirectory(), "/"));
         Router.addRoute("POST",    "/form",                new PostFormDataRoute());
         Router.addRoute("PUT",     "/form",                new PutFormDataRoute());

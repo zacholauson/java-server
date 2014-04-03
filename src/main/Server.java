@@ -7,7 +7,7 @@ import main.Requests.IRequest;
 
 import main.Response.IResponse;
 import main.Response.Responses.Response;
-import main.Routing.RouteMappings;
+import main.Routing.RouteInitializers;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,8 +30,8 @@ public class Server {
         port         = _port;
         directory    = _directory;
 
-//        RouteMappings.initializeRoutes();
-        RouteMappings.initializeCobSpecRoutes();
+//        RouteInitializers.basicRoutes();
+        RouteInitializers.cobSpecRoutes();
 
         ServerSocket serverSocket = newServerSocket(port);
         ExecutorService executor = newThreadPool();
