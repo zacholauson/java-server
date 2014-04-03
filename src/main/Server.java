@@ -1,10 +1,13 @@
 package main;
 
+import main.Logging.ILogger;
+import main.Logging.Loggers.Logger;
 import main.Requests.Requests.HTTPRequest;
 import main.Requests.IRequest;
 
 import main.Response.IResponse;
 import main.Response.Responses.Response;
+import main.Routing.RouteMappings;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,6 +21,8 @@ public class Server {
     private static Integer port;
     private static String  directory;
 
+    public static final ILogger LOGGER = newLogger();
+
     public static Integer getPort()      { return port; }
     public static String  getDirectory() { return directory; }
 
@@ -25,8 +30,8 @@ public class Server {
         port         = _port;
         directory    = _directory;
 
-//        Routes.initializeRoutes();
-        Routes.initializeCobSpecRoutes();
+//        RouteMappings.initializeRoutes();
+        RouteMappings.initializeCobSpecRoutes();
 
         ServerSocket serverSocket = newServerSocket(port);
         ExecutorService executor = newThreadPool();
@@ -73,5 +78,9 @@ public class Server {
 
     private static IResponse newResponse() {
         return new Response();
+    }
+
+    private static ILogger newLogger() {
+        return new Logger();
     }
 }

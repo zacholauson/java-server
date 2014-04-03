@@ -21,6 +21,7 @@ public class HTTPRequest implements IRequest {
     private String                   route;
     private HashMap<String, String>  params;
     private HashMap<String, Integer> range;
+    private HashMap<String, String>  auth;
 
     public String getHeaderString()             { return headerString; }
     public HashMap<String, String> getHeaders() { return headers; }
@@ -29,6 +30,7 @@ public class HTTPRequest implements IRequest {
     public String getRoute()                    { return route; }
     public HashMap<String, String> getParams()  { return params; }
     public HashMap<String, Integer> getRange()  { return range; }
+    public HashMap<String, String> getAuthorization() { return auth; }
 
     public HTTPRequest(InputStream _input) throws IOException {
         input        = getBufferedInput(_input);
@@ -39,8 +41,25 @@ public class HTTPRequest implements IRequest {
         route        = parseRoute();
         params       = parseParams();
         range        = parseRange();
+        auth         = parseAuthorization();
     }
 
+    // read in request
+    private BufferedReader getBufferedInput(InputStream input) {
+        BufferedReader bufferedReader = null;
+        try {
+            bufferedReader = new BufferedReader(readInput(input));
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+        return bufferedReader;
+    }
+
+    private InputStreamReader readInput(InputStream input) throws Exception {
+        return new InputStreamReader(input, "UTF-8");
+    }
+
+    // request parsing
     private String parseHeaderString() throws IOException {
         StringBuilder requestHeaders = new StringBuilder();
         String readLine = input.readLine();
@@ -92,20 +111,6 @@ public class HTTPRequest implements IRequest {
         }
     }
 
-    private BufferedReader getBufferedInput(InputStream input) {
-        BufferedReader bufferedReader = null;
-        try {
-            bufferedReader = new BufferedReader(readInput(input));
-        } catch (Exception exception) {
-            exception.printStackTrace();
-        }
-        return bufferedReader;
-    }
-
-    private InputStreamReader readInput(InputStream input) throws Exception {
-        return new InputStreamReader(input, "UTF-8");
-    }
-
     private HashMap<String, String> parseParams() {
         if (parseURLParams() == null) {
             return parsePOSTParams();
@@ -117,23 +122,23 @@ public class HTTPRequest implements IRequest {
     }
 
     private HashMap<String, String> parsePOSTParams() {
-        HashMap<String, String> params = new HashMap<>();
+        HashMap<String, String> paramMap = new HashMap<>();
         String[] baseParams = body.split("&");
         for (String param : baseParams) {
             String[] paramsKV = param.split("=");
             try {
                 String key = paramsKV[0];
                 String value = URLDecoder.decode(paramsKV[paramsKV.length - 1], "UTF-8");
-                params.put(key, value);
+                paramMap.put(key, value);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        return params;
+        return paramMap;
     }
 
     private HashMap<String, String> parseURLParams() {
-        HashMap<String, String> queryString = new HashMap<>();
+        HashMap<String, String> urlParamMap = new HashMap<>();
         Pattern pattern = Pattern.compile("(?<=\\?)(\\S+)");
         Matcher matcher = pattern.matcher(headerString);
         if (matcher.find()) {
@@ -145,17 +150,17 @@ public class HTTPRequest implements IRequest {
                 try {
                     key = URLDecoder.decode(queryPair[0], "UTF-8");
                     value = URLDecoder.decode(queryPair[queryPair.length - 1], "UTF-8");
-                    queryString.put(key, value);
+                    urlParamMap.put(key, value);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
 
             }
         } else {
-            queryString = null;
+            urlParamMap = null;
         }
 
-        return queryString;
+        return urlParamMap;
     }
 
     private HashMap<String, Integer> parseRange() {
@@ -172,5 +177,15 @@ public class HTTPRequest implements IRequest {
             }
         }
         return rangeMap;
+    }
+
+    private HashMap<String, String> parseAuthorization() {
+        HashMap<String, String> authMap = new HashMap<>();
+        String auth = headers.get("Authorization");
+        if (auth != null) {
+            String[] creds = auth.split(" ");
+            authMap.put(creds[0], creds[1]);
+        }
+        return authMap;
     }
 }

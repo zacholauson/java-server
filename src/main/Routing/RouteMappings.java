@@ -1,10 +1,22 @@
-package main;
+package main.Routing;
 
-import main.Routing.Router;
-import main.Routing.Routes.*;
+import main.Authorization.Authorizers.Authorization;
+
+import main.Routing.Routes.FileRoute;
+import main.Routing.Routes.GetDirectoryRoute;
+import main.Routing.Routes.GetParamsRoute;
+import main.Routing.Routes.LogsRoute;
+import main.Routing.Routes.MethodNotAllowedRoute;
+import main.Routing.Routes.OptionsRoute;
 import main.Routing.Routes.PostFormDataRoute;
+import main.Routing.Routes.PutFormDataRoute;
+import main.Routing.Routes.RedirectRoute;
+import main.Routing.Routes.SleepRoute;
+import main.Routing.Routes.TextRoute;
 
-public class Routes {
+import main.Server;
+
+public class RouteMappings {
     public static void initializeRoutes() {
         Router.addRoute("GET",     "/",               new TextRoute("Hello World"));
         Router.addRoute("GET",     "/image",          new FileRoute(Server.getDirectory(), "/public/pic.png"));
@@ -28,5 +40,6 @@ public class Routes {
         Router.addRoute("GET",     "/parameters",          new GetParamsRoute());
         Router.addRoute("GET",     "/redirect",            new RedirectRoute("http://localhost:5000/"));
         Router.addRoute("GET",     "/sleep",               new SleepRoute(1000));
+        Router.addRoute("GET",     "/logs",                new LogsRoute(new Authorization("admin:hunter2")));
     }
 }

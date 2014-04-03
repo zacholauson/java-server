@@ -18,7 +18,6 @@ public class Router {
         try {
             response = routesMap.get(request.getMethod() + " " + request.getRoute()).buildResponse(request, response);
         } catch (Exception e) {
-            // find a way to pull concrete route out of here
             response = new FourOhFourRoute().buildResponse(request, response);
         }
         return response;

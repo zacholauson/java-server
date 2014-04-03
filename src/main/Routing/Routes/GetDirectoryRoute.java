@@ -24,18 +24,17 @@ public class GetDirectoryRoute implements IRoute {
     private byte[] buildDirectoryMarkup() {
         StringBuilder body = new StringBuilder();
         File directory = new File(baseDirectory + directoryPath);
-
         File[] listOfFiles = directory.listFiles();
-
-        for(File file : listOfFiles) {
-            if (file.isFile() || file.isDirectory()) {
-                String relativeFilePath = buildRelativePath(directory.toString(), file.toString());
-                body.append("<html><body>");
-                body.append(buildATag(relativeFilePath));
-                body.append("</body></html>");
+        if (listOfFiles != null) {
+            for(File file : listOfFiles) {
+                if (file.isFile() || file.isDirectory()) {
+                    String relativeFilePath = buildRelativePath(directory.toString(), file.toString());
+                    body.append("<html><body>");
+                    body.append(buildATag(relativeFilePath));
+                    body.append("</body></html>");
+                }
             }
         }
-
         return body.toString().getBytes();
     }
 

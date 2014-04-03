@@ -23,6 +23,7 @@ public class ConnectionWrapper implements Runnable {
 
     public void run() {
         try {
+            Server.LOGGER.addEntry(request.getHeaderString().split("\r\n")[0]);
             Responder.respond(Router.route(request, response), socketOutputStream);
         } catch (Exception exception) {
             System.out.println(exception);
