@@ -1,5 +1,7 @@
 package main;
 
+import main.Parsers.ArgumentsParser;
+
 public class Main {
     public static void main(String [] args) throws Exception {
         ArgumentsParser argumentsParser = new ArgumentsParser(args);
