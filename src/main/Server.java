@@ -9,8 +9,6 @@ import main.Response.IResponse;
 import main.Response.Responses.Response;
 import main.Routing.RouteInitializers;
 
-//!define SERVER_START_COMMAND {java -jar /Users/zacholauson/code/8thlight/java-server/Server/Server.jar}
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;

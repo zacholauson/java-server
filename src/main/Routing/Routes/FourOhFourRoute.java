@@ -2,7 +2,6 @@ package main.Routing.Routes;
 
 import main.Requests.IRequest;
 import main.Response.IResponse;
-import main.Response.ResponseCodes;
 
 public class FourOhFourRoute implements IRoute {
     public FourOhFourRoute() {}

@@ -5,7 +5,7 @@ import main.Logging.ILogger;
 import java.util.ArrayList;
 
 public class Logger implements ILogger {
-    public ArrayList<String> logs = new ArrayList<String>();
+    public ArrayList<String> logs = new ArrayList<>();
 
     public void addEntry(String entry) {
         logs.add(entry);

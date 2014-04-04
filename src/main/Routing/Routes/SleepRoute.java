@@ -11,14 +11,13 @@ public class SleepRoute implements IRoute {
     }
 
     public IResponse buildResponse(IRequest request, IResponse response) {
-        response.setStatus(200);
-
         try {
             Thread.sleep(timeToSleep);
         } catch (Exception e) {
             System.out.println(e);
         }
 
+        response.setStatus(200);
         response.setBody("<!DOCTYPE html><html><body><h1>Just Slept</h1></body></html>".getBytes());
         return response;
     }
