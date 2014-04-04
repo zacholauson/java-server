@@ -4,18 +4,7 @@ import main.Authorization.Authorizers.BasicAuthorization;
 
 import main.Form.Forms.BaseForm;
 import main.Form.IForm;
-import main.Routing.Routes.FileRoute;
-import main.Routing.Routes.GetDirectoryRoute;
-import main.Routing.Routes.GetFormDataRoute;
-import main.Routing.Routes.GetParamsRoute;
-import main.Routing.Routes.LogsRoute;
-import main.Routing.Routes.MethodNotAllowedRoute;
-import main.Routing.Routes.OptionsRoute;
-import main.Routing.Routes.PostFormDataRoute;
-import main.Routing.Routes.PutFormDataRoute;
-import main.Routing.Routes.RedirectRoute;
-import main.Routing.Routes.SleepRoute;
-import main.Routing.Routes.TextRoute;
+import main.Routing.Routes.*;
 
 import main.Server;
 
@@ -35,6 +24,7 @@ public class RouteInitializers {
         Router.addRoute("GET",     "/form",                new GetFormDataRoute(baseForm));
         Router.addRoute("POST",    "/form",                new PostFormDataRoute(baseForm));
         Router.addRoute("PUT",     "/form",                new PutFormDataRoute(baseForm));
+        Router.addRoute("DELETE",  "/form",                new DeleteFormDataRoute(baseForm));
 
         Router.addRoute("OPTIONS", "/method_options",      new OptionsRoute("GET,HEAD,POST,OPTIONS,PUT"));
         Router.addRoute("GET",     "/file1",               new FileRoute(Server.getDirectory(), "/file1"));
