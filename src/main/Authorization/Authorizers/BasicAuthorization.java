@@ -5,10 +5,10 @@ import main.Requests.IRequest;
 
 import javax.xml.bind.DatatypeConverter;
 
-public class Authorization implements IAuthorize {
+public class BasicAuthorization implements IAuthorize {
     private String authorizationPair;
 
-    public Authorization(String _authorizationPair) {
+    public BasicAuthorization(String _authorizationPair) {
         authorizationPair = _authorizationPair;
     }
 

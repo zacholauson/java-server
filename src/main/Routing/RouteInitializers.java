@@ -1,9 +1,12 @@
 package main.Routing;
 
-import main.Authorization.Authorizers.Authorization;
+import main.Authorization.Authorizers.BasicAuthorization;
 
+import main.Form.Forms.BaseForm;
+import main.Form.IForm;
 import main.Routing.Routes.FileRoute;
 import main.Routing.Routes.GetDirectoryRoute;
+import main.Routing.Routes.GetFormDataRoute;
 import main.Routing.Routes.GetParamsRoute;
 import main.Routing.Routes.LogsRoute;
 import main.Routing.Routes.MethodNotAllowedRoute;
@@ -27,8 +30,12 @@ public class RouteInitializers {
 
     public static void cobSpecRoutes() {
         Router.addRoute("GET",     "/",                    new GetDirectoryRoute(Server.getDirectory(), "/"));
-        Router.addRoute("POST",    "/form",                new PostFormDataRoute());
-        Router.addRoute("PUT",     "/form",                new PutFormDataRoute());
+
+        IForm baseForm = new BaseForm();
+        Router.addRoute("GET",     "/form",                new GetFormDataRoute(baseForm));
+        Router.addRoute("POST",    "/form",                new PostFormDataRoute(baseForm));
+        Router.addRoute("PUT",     "/form",                new PutFormDataRoute(baseForm));
+
         Router.addRoute("OPTIONS", "/method_options",      new OptionsRoute("GET,HEAD,POST,OPTIONS,PUT"));
         Router.addRoute("GET",     "/file1",               new FileRoute(Server.getDirectory(), "/file1"));
         Router.addRoute("GET",     "/image.jpeg",          new FileRoute(Server.getDirectory(), "/image.jpeg"));
@@ -40,6 +47,6 @@ public class RouteInitializers {
         Router.addRoute("GET",     "/parameters",          new GetParamsRoute());
         Router.addRoute("GET",     "/redirect",            new RedirectRoute("http://localhost:5000/"));
         Router.addRoute("GET",     "/sleep",               new SleepRoute(1000));
-        Router.addRoute("GET",     "/logs",                new LogsRoute(new Authorization("admin:hunter2")));
+        Router.addRoute("GET",     "/logs",                new LogsRoute(new BasicAuthorization("admin:hunter2")));
     }
 }
