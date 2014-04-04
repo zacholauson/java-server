@@ -3,7 +3,6 @@ package main.Routing.Routes;
 import main.Form.IForm;
 import main.Requests.IRequest;
 import main.Response.IResponse;
-import main.Response.ResponseCodes;
 
 import java.util.Map;
 
@@ -15,7 +14,7 @@ public class GetFormDataRoute implements IRoute {
     }
 
     public IResponse buildResponse(IRequest request, IResponse response) {
-        response.setHeaders(ResponseCodes.codeString(200) + "\r\n");
+        response.setStatus(200);
         response.setBody(buildFormString().getBytes());
         return response;
     }

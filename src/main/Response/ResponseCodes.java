@@ -6,7 +6,7 @@ public class ResponseCodes {
     private static HashMap<Integer, String> codeMap = buildCodes();
 
     public static String codeString(int statusCode) {
-        return "HTTP/1.1 " + codeMap.get(statusCode) + "\r\n";
+        return "HTTP/1.1 " + codeMap.get(statusCode);
     }
 
     private static HashMap<Integer, String> buildCodes() {

@@ -9,24 +9,24 @@ import java.io.OutputStream;
 import java.net.Socket;
 
 public class ConnectionWrapper implements Runnable {
-    private Socket socket;
-    private IRequest request;
+    private Socket       socket;
+    private IRequest     request;
     private OutputStream socketOutputStream;
-    private IResponse response;
+    private IResponse    response;
 
     public ConnectionWrapper(Socket _socket, IRequest _request, OutputStream _socketOutputStream, IResponse _response) {
-        socket     = _socket;
-        request    = _request;
+        socket             = _socket;
+        request            = _request;
         socketOutputStream = _socketOutputStream;
-        response = _response;
+        response           = _response;
     }
 
     public void run() {
         try {
-            Server.LOGGER.addEntry(request.getHeaderString().split("\r\n")[0]);
+            Server.LOGGER.addEntry(topHeaderString(request));
             Responder.respond(Router.route(request, response), socketOutputStream);
         } catch (Exception exception) {
-            System.out.println(exception);
+            exception.printStackTrace();
         } finally {
             try {
                 socket.close();
@@ -34,5 +34,9 @@ public class ConnectionWrapper implements Runnable {
                 exception.printStackTrace();
             }
         }
+    }
+
+    private String topHeaderString(IRequest request) {
+        return request.getHeaderString().split("\r\n")[0];
     }
 }

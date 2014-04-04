@@ -2,7 +2,6 @@ package main.Routing.Routes;
 
 import main.Requests.IRequest;
 import main.Response.IResponse;
-import main.Response.ResponseCodes;
 
 public class TextRoute implements IRoute {
     private String textBody;
@@ -12,7 +11,7 @@ public class TextRoute implements IRoute {
     }
 
     public IResponse buildResponse(IRequest request, IResponse response) {
-        response.setHeaders(ResponseCodes.codeString(200) + "\r\n");
+        response.setStatus(200);
         response.setBody(("<!DOCTYPE HTML><html><body>" + textBody + "</body></html>").getBytes());
         return response;
     }

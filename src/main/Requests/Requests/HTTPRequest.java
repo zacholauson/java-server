@@ -148,13 +148,12 @@ public class HTTPRequest implements IRequest {
                 String key;
                 String value;
                 try {
-                    key = URLDecoder.decode(queryPair[0], "UTF-8");
+                    key   = URLDecoder.decode(queryPair[0], "UTF-8");
                     value = URLDecoder.decode(queryPair[queryPair.length - 1], "UTF-8");
                     urlParamMap.put(key, value);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
             }
         } else {
             urlParamMap = null;

@@ -2,7 +2,6 @@ package main.Routing.Routes;
 
 import main.Requests.IRequest;
 import main.Response.IResponse;
-import main.Response.ResponseCodes;
 
 import java.io.File;
 
@@ -16,7 +15,7 @@ public class GetDirectoryRoute implements IRoute {
     }
 
     public IResponse buildResponse(IRequest request, IResponse response) {
-        response.setHeaders(ResponseCodes.codeString(200) + "\r\n");
+        response.setStatus(200);
         response.setBody(buildDirectoryMarkup());
         return response;
     }
