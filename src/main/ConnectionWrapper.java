@@ -5,21 +5,16 @@ import main.response.IResponse;
 import main.response.Responder;
 import main.routing.Router;
 import main.routing.routes.IRoute;
-
-import java.io.IOException;
-import java.io.OutputStream;
-import java.net.Socket;
+import main.socket.ISocket;
 
 public class ConnectionWrapper implements Runnable {
-    private Socket       socket;
+    private ISocket      socketWrapper;
     private IRequest     request;
-    private OutputStream socketOutputStream;
     private IResponse    response;
 
-    public ConnectionWrapper(Socket socket, IRequest request, OutputStream socketOutputStream, IResponse response) {
-        this.socket             = socket;
+    public ConnectionWrapper(ISocket socket, IRequest request, IResponse response) {
+        this.socketWrapper      = socket;
         this.request            = request;
-        this.socketOutputStream = socketOutputStream;
         this.response           = response;
     }
 
@@ -29,15 +24,11 @@ public class ConnectionWrapper implements Runnable {
         try {
             IRoute route = Router.route(request);
             route.buildResponse(request, response);
-            Responder.respond(response, socketOutputStream);
+            Responder.respond(response, socketWrapper.socketOutputStream());
         } catch (Exception exception) {
             exception.printStackTrace();
         } finally {
-            try {
-                socket.close();
-            } catch ( IOException exception ) {
-                exception.printStackTrace();
-            }
+            socketWrapper.close();
         }
     }
 
