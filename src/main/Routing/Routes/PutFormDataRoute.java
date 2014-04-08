@@ -1,8 +1,8 @@
-package main.Routing.Routes;
+package main.routing.routes;
 
-import main.Form.IForm;
-import main.Requests.IRequest;
-import main.Response.IResponse;
+import main.form.IForm;
+import main.requests.IRequest;
+import main.response.IResponse;
 
 import java.util.Map;
 

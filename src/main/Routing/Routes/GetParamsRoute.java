@@ -1,7 +1,7 @@
-package main.Routing.Routes;
+package main.routing.routes;
 
-import main.Requests.IRequest;
-import main.Response.IResponse;
+import main.requests.IRequest;
+import main.response.IResponse;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,13 +14,12 @@ public class GetParamsRoute implements IRoute {
         try {
             StringBuilder keyValuePairs = new StringBuilder();
             HashMap<String, String> results = request.getParams();
-            for (Map.Entry<String, String> entry : results.entrySet() ) {
+            for (Map.Entry<String, String> entry : results.entrySet()) {
                 keyValuePairs.append(entry.getKey() + " = " + entry.getValue());
-                keyValuePairs.append("<br>");
             }
-            response.setBody(("<!DOCTYPE html><html><body>" + keyValuePairs.toString() + "</body></html>").getBytes());
+            response.setBody((keyValuePairs.toString()).getBytes());
         } catch (Exception exception) {
-            System.out.println(exception);
+            exception.printStackTrace();
         }
 
         return response;

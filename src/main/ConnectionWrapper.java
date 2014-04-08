@@ -1,10 +1,12 @@
 package main;
 
-import main.Requests.IRequest;
-import main.Response.IResponse;
-import main.Response.Responder;
-import main.Routing.Router;
+import main.requests.IRequest;
+import main.response.IResponse;
+import main.response.Responder;
+import main.routing.Router;
+import main.routing.routes.IRoute;
 
+import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
 
@@ -14,23 +16,26 @@ public class ConnectionWrapper implements Runnable {
     private OutputStream socketOutputStream;
     private IResponse    response;
 
-    public ConnectionWrapper(Socket _socket, IRequest _request, OutputStream _socketOutputStream, IResponse _response) {
-        socket             = _socket;
-        request            = _request;
-        socketOutputStream = _socketOutputStream;
-        response           = _response;
+    public ConnectionWrapper(Socket socket, IRequest request, OutputStream socketOutputStream, IResponse response) {
+        this.socket             = socket;
+        this.request            = request;
+        this.socketOutputStream = socketOutputStream;
+        this.response           = response;
     }
 
     public void run() {
+        Server.LOGGER.addEntry(topHeaderString(request));
+
         try {
-            Server.LOGGER.addEntry(topHeaderString(request));
-            Responder.respond(Router.route(request, response), socketOutputStream);
+            IRoute route = Router.route(request);
+            route.buildResponse(request, response);
+            Responder.respond(response, socketOutputStream);
         } catch (Exception exception) {
             exception.printStackTrace();
         } finally {
             try {
                 socket.close();
-            } catch ( Exception exception ) {
+            } catch ( IOException exception ) {
                 exception.printStackTrace();
             }
         }

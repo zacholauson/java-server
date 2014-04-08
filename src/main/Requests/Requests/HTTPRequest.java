@@ -1,6 +1,6 @@
-package main.Requests.Requests;
+package main.requests.requests;
 
-import main.Requests.IRequest;
+import main.requests.IRequest;
 
 import java.io.BufferedReader;
 import java.io.IOException;

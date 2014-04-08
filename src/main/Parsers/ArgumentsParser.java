@@ -1,4 +1,4 @@
-package main.Parsers;
+package main.parsers;
 
 import java.io.File;
 import java.lang.Integer;

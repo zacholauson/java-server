@@ -1,6 +1,6 @@
-package main.Logging.Loggers;
+package main.logging.loggers;
 
-import main.Logging.ILogger;
+import main.logging.ILogger;
 
 import java.util.ArrayList;
 

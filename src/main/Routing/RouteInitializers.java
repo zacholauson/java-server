@@ -1,24 +1,24 @@
-package main.Routing;
+package main.routing;
 
-import main.Authorization.Authorizers.BasicAuthorization;
+import main.authorization.authorizers.BasicAuthorization;
 
-import main.Form.Forms.BaseForm;
-import main.Form.IForm;
+import main.form.forms.BaseForm;
+import main.form.IForm;
 
-import main.Routing.Routes.DeleteFormDataRoute;
-import main.Routing.Routes.FileRoute;
-import main.Routing.Routes.FourOhFourRoute;
-import main.Routing.Routes.GetDirectoryRoute;
-import main.Routing.Routes.GetFormDataRoute;
-import main.Routing.Routes.GetParamsRoute;
-import main.Routing.Routes.LogsRoute;
-import main.Routing.Routes.MethodNotAllowedRoute;
-import main.Routing.Routes.OptionsRoute;
-import main.Routing.Routes.PostFormDataRoute;
-import main.Routing.Routes.PutFormDataRoute;
-import main.Routing.Routes.RedirectRoute;
-import main.Routing.Routes.SleepRoute;
-import main.Routing.Routes.TextRoute;
+import main.routing.routes.DeleteFormDataRoute;
+import main.routing.routes.FileRoute;
+import main.routing.routes.FourOhFourRoute;
+import main.routing.routes.GetDirectoryRoute;
+import main.routing.routes.GetFormDataRoute;
+import main.routing.routes.GetParamsRoute;
+import main.routing.routes.LogsRoute;
+import main.routing.routes.MethodNotAllowedRoute;
+import main.routing.routes.OptionsRoute;
+import main.routing.routes.PostFormDataRoute;
+import main.routing.routes.PutFormDataRoute;
+import main.routing.routes.RedirectRoute;
+import main.routing.routes.SleepRoute;
+import main.routing.routes.TextRoute;
 
 import main.Server;
 

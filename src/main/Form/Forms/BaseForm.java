@@ -1,6 +1,6 @@
-package main.Form.Forms;
+package main.form.forms;
 
-import main.Form.IForm;
+import main.form.IForm;
 
 import java.util.HashMap;
 

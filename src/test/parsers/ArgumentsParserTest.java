@@ -1,6 +1,6 @@
-package test;
+package test.parsers;
 
-import main.Parsers.ArgumentsParser;
+import main.parsers.ArgumentsParser;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;

@@ -1,4 +1,4 @@
-package main.Form;
+package main.form;
 
 import java.util.HashMap;
 

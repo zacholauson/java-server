@@ -1,8 +1,7 @@
-package main.Routing;
+package main.routing;
 
-import main.Requests.IRequest;
-import main.Response.IResponse;
-import main.Routing.Routes.IRoute;
+import main.requests.IRequest;
+import main.routing.routes.IRoute;
 
 import java.util.HashMap;
 
@@ -18,13 +17,14 @@ public class Router {
         fourOhFourRoute = route;
     }
 
-    public static IResponse route(IRequest request, IResponse response) {
-        try {
-            response = routesMap.get(methodRoute(request)).buildResponse(request, response);
-        } catch (Exception e) {
-            response = fourOhFourRoute.buildResponse(request, response);
+    public static IRoute route(IRequest request) {
+        IRoute route = null;
+        route = routesMap.get(methodRoute(request));
+        if (route == null) {
+            route = fourOhFourRoute;
         }
-        return response;
+
+        return route;
     }
 
     private static String methodRoute(IRequest request) {

@@ -1,6 +1,4 @@
-package main.Response;
-
-//import java.io.File;
+package main.response;
 
 public interface IResponse {
     public void setBody(byte[] body);

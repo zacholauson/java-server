@@ -1,8 +1,8 @@
-package main.Routing.Routes;
+package main.routing.routes;
 
-import main.Authorization.IAuthorize;
-import main.Requests.IRequest;
-import main.Response.IResponse;
+import main.authorization.IAuthorize;
+import main.requests.IRequest;
+import main.response.IResponse;
 import main.Server;
 
 public class LogsRoute implements IRoute {

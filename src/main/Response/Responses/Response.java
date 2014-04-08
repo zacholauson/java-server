@@ -1,13 +1,13 @@
-package main.Response.Responses;
+package main.response.responses;
 
-import main.Response.IResponse;
-import main.Response.ResponseCodes;
+import main.response.IResponse;
+import main.response.ResponseCodes;
 
 public class Response implements IResponse {
     private static final String NEWLINE = "\r\n";
 
     private byte[] body;
-    private String statusLine;
+    private String statusLine = "";
     private StringBuilder headerBuilder = new StringBuilder();
 
     public Response() {}

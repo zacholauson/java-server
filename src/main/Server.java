@@ -1,13 +1,13 @@
 package main;
 
-import main.Logging.ILogger;
-import main.Logging.Loggers.Logger;
-import main.Requests.Requests.HTTPRequest;
-import main.Requests.IRequest;
+import main.logging.ILogger;
+import main.logging.loggers.Logger;
+import main.requests.requests.HTTPRequest;
+import main.requests.IRequest;
 
-import main.Response.IResponse;
-import main.Response.Responses.Response;
-import main.Routing.RouteInitializers;
+import main.response.IResponse;
+import main.response.responses.Response;
+import main.routing.RouteInitializers;
 
 import java.io.IOException;
 import java.io.InputStream;

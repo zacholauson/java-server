@@ -1,7 +1,7 @@
-package main.Routing.Routes;
+package main.routing.routes;
 
-import main.Requests.IRequest;
-import main.Response.IResponse;
+import main.requests.IRequest;
+import main.response.IResponse;
 
 import java.io.File;
 
@@ -25,14 +25,16 @@ public class GetDirectoryRoute implements IRoute {
         File directory = new File(baseDirectory + directoryPath);
         File[] listOfFiles = directory.listFiles();
         if (listOfFiles != null) {
+            body.append("<!DOCTYPE HTML><html><body>");
+
             for(File file : listOfFiles) {
                 if (file.isFile() || file.isDirectory()) {
                     String relativeFilePath = buildRelativePath(directory.toString(), file.toString());
-                    body.append("<html><body>");
                     body.append(buildATag(relativeFilePath));
-                    body.append("</body></html>");
                 }
             }
+
+            body.append("</body></html>");
         }
         return body.toString().getBytes();
     }

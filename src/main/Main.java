@@ -1,6 +1,6 @@
 package main;
 
-import main.Parsers.ArgumentsParser;
+import main.parsers.ArgumentsParser;
 
 public class Main {
     public static void main(String [] args) throws Exception {

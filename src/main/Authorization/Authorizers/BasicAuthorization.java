@@ -1,7 +1,7 @@
-package main.Authorization.Authorizers;
+package main.authorization.authorizers;
 
-import main.Authorization.IAuthorize;
-import main.Requests.IRequest;
+import main.authorization.IAuthorize;
+import main.requests.IRequest;
 
 import javax.xml.bind.DatatypeConverter;
 

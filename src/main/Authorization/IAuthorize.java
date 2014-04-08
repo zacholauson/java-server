@@ -1,6 +1,6 @@
-package main.Authorization;
+package main.authorization;
 
-import main.Requests.IRequest;
+import main.requests.IRequest;
 
 public interface IAuthorize {
     public Boolean authorized(IRequest request);

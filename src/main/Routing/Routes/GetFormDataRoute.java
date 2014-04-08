@@ -1,8 +1,8 @@
-package main.Routing.Routes;
+package main.routing.routes;
 
-import main.Form.IForm;
-import main.Requests.IRequest;
-import main.Response.IResponse;
+import main.form.IForm;
+import main.requests.IRequest;
+import main.response.IResponse;
 
 import java.util.Map;
 
@@ -21,16 +21,12 @@ public class GetFormDataRoute implements IRoute {
 
     private String buildFormString() {
         StringBuilder body = new StringBuilder();
-        body.append("<!DOCTYPE html><html><body>");
-
         for (Map.Entry<String, String> entry : form.form().entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
             body.append(key + " = " + value);
-            body.append("<br>");
+            body.append("\r\n");
         }
-
-        body.append("</body></html>");
         return body.toString();
     }
 }

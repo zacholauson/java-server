@@ -1,7 +1,7 @@
-package main.Routing.Routes;
+package main.routing.routes;
 
-import main.Requests.IRequest;
-import main.Response.IResponse;
+import main.requests.IRequest;
+import main.response.IResponse;
 
 public class SleepRoute implements IRoute {
     Integer timeToSleep;
