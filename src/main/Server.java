@@ -5,6 +5,8 @@ import main.logging.loggers.Logger;
 import main.requests.requests.HTTPRequest;
 import main.requests.IRequest;
 
+import main.respond.IRespond;
+import main.respond.responders.Responder;
 import main.response.IResponse;
 import main.response.responses.Response;
 import main.routing.IRouter;
@@ -30,7 +32,8 @@ public class Server {
         serverSocket = newServerSocket(port);
         while(!serverSocket.isClosed()) {
             ISocket socketWrapper = wrapClientSocket(serverSocket);
-            executor.execute(newThread(socketWrapper, newRequest(socketWrapper), new Response(), LOGGER, ROUTER));
+            IRespond responder = new Responder(socketWrapper.socketOutputStream());
+            executor.execute(newThread(socketWrapper, newRequest(socketWrapper), new Response(), LOGGER, ROUTER, responder));
         }
     }
 
@@ -56,12 +59,12 @@ public class Server {
         return socketWrapper;
     }
 
-    private static Runnable newThread(ISocket socketWrapper, IRequest request, IResponse response, ILogger logger, IRouter router) {
-        return new Thread(wrapConnection(socketWrapper, request, response, logger, router));
+    private static Runnable newThread(ISocket socketWrapper, IRequest request, IResponse response, ILogger logger, IRouter router, IRespond responder) {
+        return new Thread(wrapConnection(socketWrapper, request, response, logger, router, responder));
     }
 
-    private static ConnectionWrapper wrapConnection(ISocket socketWrapper, IRequest request, IResponse response, ILogger logger, IRouter router) {
-        return new ConnectionWrapper(socketWrapper, request, response, logger, router);
+    private static ConnectionWrapper wrapConnection(ISocket socketWrapper, IRequest request, IResponse response, ILogger logger, IRouter router, IRespond responder) {
+        return new ConnectionWrapper(socketWrapper, request, response, logger, router, responder);
     }
 
     private static IRequest newRequest(ISocket socketWrapper) {

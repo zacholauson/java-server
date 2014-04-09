@@ -1,10 +1,19 @@
-package main.response;
+package main.respond.responders;
+
+import main.respond.IRespond;
+import main.response.IResponse;
 
 import java.io.*;
 import java.lang.Exception;
 
-public class Responder {
-    public static void respond(IResponse response, OutputStream outputStream) {
+public class Responder implements IRespond {
+    private OutputStream outputStream;
+
+    public Responder(OutputStream outputStream) {
+        this.outputStream = outputStream;
+    }
+
+    public void respond(IResponse response) {
         PrintWriter output                = new PrintWriter(outputStream, false);
         DataOutputStream dataOutputStream = new DataOutputStream(new BufferedOutputStream(outputStream));
         writeResponseToOutputStream(dataOutputStream, response);
@@ -12,7 +21,7 @@ public class Responder {
         output.close();
     }
 
-    private static void closeOutputStreams(OutputStream... outputStreams) {
+    private void closeOutputStreams(OutputStream... outputStreams) {
         for(OutputStream outputStream : outputStreams) {
             try {
                 outputStream.close();
@@ -23,7 +32,7 @@ public class Responder {
         }
     }
 
-    private static void writeResponseToOutputStream(DataOutputStream dataOutputStream, IResponse response) {
+    private void writeResponseToOutputStream(DataOutputStream dataOutputStream, IResponse response) {
         try {
             writeHeadersToOutputStream(dataOutputStream, response);
             writeBodyToOutputStream(dataOutputStream,    response);
@@ -33,17 +42,17 @@ public class Responder {
         }
     }
 
-    private static void writeHeadersToOutputStream(DataOutputStream dataOutputStream, IResponse response) throws IOException {
+    private void writeHeadersToOutputStream(DataOutputStream dataOutputStream, IResponse response) throws IOException {
         dataOutputStream.write(response.getHeaders().getBytes());
     }
 
-    private static void writeBodyToOutputStream(DataOutputStream dataOutputStream, IResponse response) throws IOException {
+    private void writeBodyToOutputStream(DataOutputStream dataOutputStream, IResponse response) throws IOException {
         if (bodyIsPresent(response)) {
             dataOutputStream.write(response.getBody());
         }
     }
 
-    private static boolean bodyIsPresent(IResponse response) {
+    private boolean bodyIsPresent(IResponse response) {
         return response.getBody() != null;
     }
 }
