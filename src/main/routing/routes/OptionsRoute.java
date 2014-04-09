@@ -6,8 +6,8 @@ import main.response.IResponse;
 public class OptionsRoute implements IRoute {
     String options;
 
-    public OptionsRoute(String _options) {
-        options = _options;
+    public OptionsRoute(String options) {
+        this.options = options;
     }
 
     public IResponse buildResponse(IRequest request, IResponse response) {

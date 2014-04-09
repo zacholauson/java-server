@@ -4,17 +4,17 @@ import java.io.*;
 import java.lang.Exception;
 
 public class Responder {
-    public static void respond(IResponse response, OutputStream _output) throws Exception {
-        PrintWriter output                = new PrintWriter(_output, false);
-        DataOutputStream dataOutputStream = new DataOutputStream(new BufferedOutputStream(_output));
+    public static void respond(IResponse response, OutputStream outputStream) throws Exception {
+        PrintWriter output                = new PrintWriter(outputStream, false);
+        DataOutputStream dataOutputStream = new DataOutputStream(new BufferedOutputStream(outputStream));
 
         writeHeadersToOutputStream(dataOutputStream, response);
         writeBodyToOutputStream(dataOutputStream,    response);
 
         dataOutputStream.flush();
         dataOutputStream.close();
-        _output.flush();
-        _output.close();
+        outputStream.flush();
+        outputStream.close();
         output.flush();
         output.close();
     }

@@ -13,9 +13,9 @@ public class FileRoute implements IRoute {
     private String filePath;
     private String basePath;
 
-    public FileRoute(String _basePath, String _filePath) {
-        filePath = _filePath;
-        basePath = _basePath;
+    public FileRoute(String basePath, String filePath) {
+        this.filePath = filePath;
+        this.basePath = basePath;
     }
 
     public IResponse buildResponse(IRequest request, IResponse response) {

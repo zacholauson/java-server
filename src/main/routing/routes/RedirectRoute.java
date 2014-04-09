@@ -6,8 +6,8 @@ import main.response.IResponse;
 public class RedirectRoute implements IRoute {
     String redirectTo;
 
-    public RedirectRoute(String _redirectTo) {
-        redirectTo = _redirectTo;
+    public RedirectRoute(String redirectTo) {
+        this.redirectTo = redirectTo;
     }
 
     public IResponse buildResponse(IRequest request, IResponse response) {

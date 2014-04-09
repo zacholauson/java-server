@@ -8,14 +8,14 @@ import main.routing.routes.IRoute;
 import main.socket.ISocket;
 
 public class ConnectionWrapper implements Runnable {
-    private ISocket      socketWrapper;
-    private IRequest     request;
-    private IResponse    response;
+    private ISocket   socketWrapper;
+    private IRequest  request;
+    private IResponse response;
 
     public ConnectionWrapper(ISocket socket, IRequest request, IResponse response) {
-        this.socketWrapper      = socket;
-        this.request            = request;
-        this.response           = response;
+        this.socketWrapper = socket;
+        this.request       = request;
+        this.response      = response;
     }
 
     public void run() {

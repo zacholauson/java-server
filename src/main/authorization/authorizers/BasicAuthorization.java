@@ -8,8 +8,8 @@ import javax.xml.bind.DatatypeConverter;
 public class BasicAuthorization implements IAuthorize {
     private String authorizationPair;
 
-    public BasicAuthorization(String _authorizationPair) {
-        authorizationPair = _authorizationPair;
+    public BasicAuthorization(String authorizationPair) {
+        this.authorizationPair = authorizationPair;
     }
 
     public Boolean authorized(IRequest request) {

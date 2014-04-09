@@ -9,8 +9,8 @@ public class Router {
     public static HashMap<String, IRoute> routesMap = new HashMap<>();
     public static IRoute fourOhFourRoute;
 
-    public static void addRoute(String _method, String _route, IRoute _router) {
-        routesMap.put(_method + " " + _route, _router);
+    public static void addRoute(String method, String route, IRoute router) {
+        routesMap.put(method + " " + route, router);
     }
 
     public static void addFourOhFourRoute(IRoute route) {
@@ -18,7 +18,7 @@ public class Router {
     }
 
     public static IRoute route(IRequest request) {
-        IRoute route = null;
+        IRoute route;
         route = routesMap.get(methodRoute(request));
         if (route == null) {
             route = fourOhFourRoute;

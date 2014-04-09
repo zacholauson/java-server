@@ -6,8 +6,8 @@ import main.response.IResponse;
 public class SleepRoute implements IRoute {
     Integer timeToSleep;
 
-    public SleepRoute(int _timeToSleep) {
-        timeToSleep = _timeToSleep;
+    public SleepRoute(int timeToSleep) {
+        this.timeToSleep = timeToSleep;
     }
 
     public IResponse buildResponse(IRequest request, IResponse response) {

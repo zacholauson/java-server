@@ -6,8 +6,8 @@ import main.response.IResponse;
 public class TextRoute implements IRoute {
     private String textBody;
 
-    public TextRoute(String text) {
-        textBody = text;
+    public TextRoute(String textBody) {
+        this.textBody = textBody;
     }
 
     public IResponse buildResponse(IRequest request, IResponse response) {

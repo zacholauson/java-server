@@ -9,8 +9,8 @@ import java.util.Map;
 public class GetFormDataRoute implements IRoute {
     private IForm form;
 
-    public GetFormDataRoute(IForm _form) {
-        form = _form;
+    public GetFormDataRoute(IForm form) {
+        this.form = form;
     }
 
     public IResponse buildResponse(IRequest request, IResponse response) {

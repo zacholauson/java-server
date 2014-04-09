@@ -23,25 +23,25 @@ public class HTTPRequest implements IRequest {
     private HashMap<String, Integer> range;
     private HashMap<String, String>  auth;
 
-    public String getHeaderString()             { return headerString; }
-    public HashMap<String, String> getHeaders() { return headers; }
-    public String getBody()                     { return body; }
-    public String getMethod()                   { return method; }
-    public String getRoute()                    { return route; }
-    public HashMap<String, String> getParams()  { return params; }
-    public HashMap<String, Integer> getRange()  { return range; }
+    public String getHeaderString()                   { return headerString; }
+    public HashMap<String, String> getHeaders()       { return headers; }
+    public String getBody()                           { return body; }
+    public String getMethod()                         { return method; }
+    public String getRoute()                          { return route; }
+    public HashMap<String, String> getParams()        { return params; }
+    public HashMap<String, Integer> getRange()        { return range; }
     public HashMap<String, String> getAuthorization() { return auth; }
 
     public HTTPRequest(InputStream _input) throws IOException {
-        input        = getBufferedInput(_input);
-        headerString = parseHeaderString();
-        headers      = parseHeadersHash();
-        body         = parseBody();
-        method       = parseMethod();
-        route        = parseRoute();
-        params       = parseParams();
-        range        = parseRange();
-        auth         = parseAuthorization();
+        this.input        = getBufferedInput(_input);
+        this.headerString = parseHeaderString();
+        this.headers      = parseHeadersHash();
+        this.body         = parseBody();
+        this.method       = parseMethod();
+        this.route        = parseRoute();
+        this.params       = parseParams();
+        this.range        = parseRange();
+        this.auth         = parseAuthorization();
     }
 
     // read in request

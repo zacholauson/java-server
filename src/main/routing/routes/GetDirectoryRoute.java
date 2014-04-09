@@ -9,9 +9,9 @@ public class GetDirectoryRoute implements IRoute {
     String directoryPath;
     String baseDirectory;
 
-    public GetDirectoryRoute(String _baseDirectory, String _directoryPath) {
-        baseDirectory = _baseDirectory;
-        directoryPath = _directoryPath;
+    public GetDirectoryRoute(String baseDirectory, String directoryPath) {
+        this.baseDirectory = baseDirectory;
+        this.directoryPath = directoryPath;
     }
 
     public IResponse buildResponse(IRequest request, IResponse response) {

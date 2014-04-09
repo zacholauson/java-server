@@ -8,8 +8,8 @@ import main.Server;
 public class LogsRoute implements IRoute {
     private IAuthorize auth;
 
-    public LogsRoute(IAuthorize _auth) {
-        auth = _auth;
+    public LogsRoute(IAuthorize auth) {
+        this.auth = auth;
     }
 
     public IResponse buildResponse(IRequest request, IResponse response) {

@@ -9,8 +9,8 @@ import java.util.Map;
 public class PostFormDataRoute implements IRoute {
     private IForm form;
 
-    public PostFormDataRoute(IForm _form) {
-        form = _form;
+    public PostFormDataRoute(IForm form) {
+        this.form = form;
     }
 
     public IResponse buildResponse(IRequest request, IResponse response) {
