@@ -1,2 +1,29 @@
-      Date & Time,  Trans,  Elap Time,  Data Trans,  Resp Time,  Trans Rate,  Throughput,  Concurrent,    OKAY,   Failed
-2014-04-03 21:47:53, 446814,   17947.53,         303,       0.93,       24.90,        0.02,       23.08,  446814,       0
+Date & Time:
+2014-04-03 21:47:53
+
+Trans:
+446814
+
+Elap Time:
+17947.53
+
+Data Trans:
+303
+
+Resp Time:
+0.93
+
+Trans Rate:
+24.90
+
+Throughput:
+0.02
+
+Concurrent:
+23.08
+
+OKAY:
+446814
+
+Failed:
+0
