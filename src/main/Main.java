@@ -3,7 +3,7 @@ package main;
 import main.parsers.ArgumentsParser;
 
 public class Main {
-    public static void main(String [] args) throws Exception {
+    public static void main(String [] args) {
         ArgumentsParser argumentsParser = new ArgumentsParser(args);
         announceServerInitialization(argumentsParser.getPort(), argumentsParser.getDirectory());
 

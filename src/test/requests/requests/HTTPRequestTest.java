@@ -35,13 +35,6 @@ public class HTTPRequestTest {
 
     private IRequest newRequest(String headerString) {
         InputStream inputStream = new ByteArrayInputStream(Charset.forName("UTF-8").encode(headerString).array());
-        IRequest request = null;
-        try {
-            request = new HTTPRequest(inputStream);
-        } catch (IOException e) {
-            e.printStackTrace();
-            fail();
-        }
-        return request;
+        return new HTTPRequest(inputStream);
     }
 }

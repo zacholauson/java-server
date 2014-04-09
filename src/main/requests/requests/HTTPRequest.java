@@ -32,16 +32,21 @@ public class HTTPRequest implements IRequest {
     public HashMap<String, Integer> getRange()        { return range; }
     public HashMap<String, String> getAuthorization() { return auth; }
 
-    public HTTPRequest(InputStream _input) throws IOException {
-        this.input        = getBufferedInput(_input);
-        this.headerString = parseHeaderString();
-        this.headers      = parseHeadersHash();
-        this.body         = parseBody();
-        this.method       = parseMethod();
-        this.route        = parseRoute();
-        this.params       = parseParams();
-        this.range        = parseRange();
-        this.auth         = parseAuthorization();
+    public HTTPRequest(InputStream _input) {
+        try {
+            this.input = getBufferedInput(_input);
+            this.headerString = parseHeaderString();
+            this.headers = parseHeadersHash();
+            this.body = parseBody();
+            this.method = parseMethod();
+            this.route = parseRoute();
+            this.params = parseParams();
+            this.range = parseRange();
+            this.auth = parseAuthorization();
+        } catch (IOException e) {
+            new Exception("Unable to create Request object based on request stream").printStackTrace();
+            e.printStackTrace();
+        }
     }
 
     // read in request
@@ -55,8 +60,15 @@ public class HTTPRequest implements IRequest {
         return bufferedReader;
     }
 
-    private InputStreamReader readInput(InputStream input) throws Exception {
-        return new InputStreamReader(input, "UTF-8");
+    private InputStreamReader readInput(InputStream input) {
+        InputStreamReader inputStreamReader = null;
+        try {
+            inputStreamReader = new InputStreamReader(input, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            new Exception("Unable to read in request's input stream").printStackTrace();
+            e.printStackTrace();
+        }
+        return inputStreamReader;
     }
 
     // request parsing

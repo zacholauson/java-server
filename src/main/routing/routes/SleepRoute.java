@@ -13,8 +13,9 @@ public class SleepRoute implements IRoute {
     public IResponse buildResponse(IRequest request, IResponse response) {
         try {
             Thread.sleep(timeToSleep);
-        } catch (Exception e) {
-            System.out.println(e);
+        } catch (InterruptedException e) {
+            new Exception("Failed to sleep").printStackTrace();
+            e.printStackTrace();
         }
 
         response.setStatus(200);

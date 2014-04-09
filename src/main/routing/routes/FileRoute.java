@@ -4,6 +4,7 @@ import main.requests.IRequest;
 import main.response.IResponse;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -47,7 +48,7 @@ public class FileRoute implements IRoute {
         byte[] bodyBytes = null;
         try {
             bodyBytes = Files.readAllBytes(path);
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 

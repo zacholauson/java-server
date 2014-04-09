@@ -20,16 +20,10 @@ public class ConnectionWrapper implements Runnable {
 
     public void run() {
         Server.LOGGER.addEntry(topHeaderString(request));
-
-        try {
-            IRoute route = Router.route(request);
-            route.buildResponse(request, response);
-            Responder.respond(response, socketWrapper.socketOutputStream());
-        } catch (Exception exception) {
-            exception.printStackTrace();
-        } finally {
-            socketWrapper.close();
-        }
+        IRoute route = Router.route(request);
+        route.buildResponse(request, response);
+        Responder.respond(response, socketWrapper.socketOutputStream());
+        socketWrapper.close();
     }
 
     private String topHeaderString(IRequest request) {

@@ -11,16 +11,12 @@ public class GetParamsRoute implements IRoute {
 
     public IResponse buildResponse(IRequest request, IResponse response) {
         response.setStatus(200);
-        try {
-            StringBuilder keyValuePairs = new StringBuilder();
-            HashMap<String, String> results = request.getParams();
-            for (Map.Entry<String, String> entry : results.entrySet()) {
-                keyValuePairs.append(entry.getKey() + " = " + entry.getValue());
-            }
-            response.setBody((keyValuePairs.toString()).getBytes());
-        } catch (Exception exception) {
-            exception.printStackTrace();
+        StringBuilder keyValuePairs = new StringBuilder();
+        HashMap<String, String> results = request.getParams();
+        for (Map.Entry<String, String> entry : results.entrySet()) {
+            keyValuePairs.append(entry.getKey() + " = " + entry.getValue());
         }
+        response.setBody((keyValuePairs.toString()).getBytes());
 
         return response;
     }

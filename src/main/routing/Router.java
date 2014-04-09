@@ -20,10 +20,7 @@ public class Router {
     public static IRoute route(IRequest request) {
         IRoute route;
         route = routesMap.get(methodRoute(request));
-        if (route == null) {
-            route = fourOhFourRoute;
-        }
-
+        if (route == null) { route = fourOhFourRoute; }
         return route;
     }
 

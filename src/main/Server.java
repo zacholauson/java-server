@@ -42,14 +42,6 @@ public class Server {
         return new Logger();
     }
 
-    private static ConnectionWrapper wrapConnection(ISocket socketWrapper, IRequest request, IResponse response) {
-        return new ConnectionWrapper(socketWrapper, request, response);
-    }
-
-    private static Runnable newThread(ISocket socketWrapper, IRequest request, IResponse response) {
-        return new Thread(wrapConnection(socketWrapper, request, response));
-    }
-
     private static ServerSocket newServerSocket(int port) {
         ServerSocket serverSocket = null;
         try {
@@ -72,14 +64,15 @@ public class Server {
         return socketWrapper;
     }
 
+    private static Runnable newThread(ISocket socketWrapper, IRequest request, IResponse response) {
+        return new Thread(wrapConnection(socketWrapper, request, response));
+    }
+
+    private static ConnectionWrapper wrapConnection(ISocket socketWrapper, IRequest request, IResponse response) {
+        return new ConnectionWrapper(socketWrapper, request, response);
+    }
+
     private static IRequest newRequest(ISocket socketWrapper) {
-        IRequest request = null;
-        try {
-            request = new HTTPRequest(socketWrapper.socketInputStream());
-        } catch (IOException e) {
-            new Exception("Failed to parse request").printStackTrace();
-            e.printStackTrace();
-        }
-        return request;
+        return new HTTPRequest(socketWrapper.socketInputStream());
     }
 }
