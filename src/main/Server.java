@@ -8,7 +8,7 @@ import main.requests.IRequest;
 import main.response.IResponse;
 import main.response.responses.Response;
 import main.routing.IRouter;
-import main.routing.RouteInitializers;
+import main.routing.RouteInitializer;
 import main.routing.Router;
 import main.socket.ISocket;
 import main.socket.socketWrappers.SocketWrapper;
@@ -24,7 +24,7 @@ public class Server {
     public   static       ServerSocket serverSocket;
 
     public static void start(int port, String baseDirectory) {
-        RouteInitializers.cobSpecRoutes(ROUTER, baseDirectory, LOGGER);
+        new RouteInitializer(ROUTER, LOGGER, baseDirectory).cobSpecRoutes();
         ExecutorService executor = Executors.newFixedThreadPool(16);
 
         serverSocket = newServerSocket(port);

@@ -8,8 +8,18 @@ import main.form.forms.BaseForm;
 import main.logging.ILogger;
 import main.routing.routes.*;
 
-public class RouteInitializers {
-    public static void basicRoutes(IRouter router, String baseDirectory, ILogger logger) {
+public class RouteInitializer {
+    private IRouter router;
+    private String  baseDirectory;
+    private ILogger logger;
+
+    public RouteInitializer(IRouter router, ILogger logger, String baseDirectory) {
+        this.router        = router;
+        this.logger        = logger;
+        this.baseDirectory = baseDirectory;
+    }
+
+    public void basicRoutes() {
         router.addFourOhFourRoute(new FourOhFourRoute());
 
         router.addRoute("GET",     "/",               new TextRoute("Hello World"));
@@ -19,7 +29,7 @@ public class RouteInitializers {
         router.addRoute("GET",     "/sleep",          new SleepRoute(1000));
     }
 
-    public static void cobSpecRoutes(IRouter router, String baseDirectory, ILogger logger) {
+    public void cobSpecRoutes() {
         router.addFourOhFourRoute(new FourOhFourRoute());
 
         router.addRoute("GET",        "/",                    new GetDirectoryRoute(baseDirectory, "/"));
