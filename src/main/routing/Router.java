@@ -5,26 +5,34 @@ import main.routing.routes.IRoute;
 
 import java.util.HashMap;
 
-public class Router {
-    public static HashMap<String, IRoute> routesMap = new HashMap<>();
-    public static IRoute fourOhFourRoute;
+public class Router implements IRouter {
+    public HashMap<String, IRoute> routesMap = new HashMap<>();
+    public IRoute fourOhFourRoute;
 
-    public static void addRoute(String method, String route, IRoute router) {
+    public void addRoute(String method, String route, IRoute router) {
         routesMap.put(method + " " + route, router);
     }
 
-    public static void addFourOhFourRoute(IRoute route) {
+    public void addFourOhFourRoute(IRoute route) {
         fourOhFourRoute = route;
     }
 
-    public static IRoute route(IRequest request) {
+    public IRoute route(IRequest request) {
         IRoute route;
         route = routesMap.get(methodRoute(request));
         if (route == null) { route = fourOhFourRoute; }
         return route;
     }
 
-    private static String methodRoute(IRequest request) {
+    public HashMap<String, IRoute> routes() {
+        return routesMap;
+    }
+
+    public IRoute fourOhFourRoute() {
+        return fourOhFourRoute;
+    }
+
+    private String methodRoute(IRequest request) {
         return request.getMethod() + " " + request.getRoute();
     }
 }
