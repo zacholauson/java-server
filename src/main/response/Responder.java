@@ -10,15 +10,6 @@ public class Responder {
         writeResponseToOutputStream(dataOutputStream, response);
 
         try {
-            dataOutputStream.flush();
-            outputStream.flush();
-            output.flush();
-        } catch (IOException e) {
-            new Exception("Failed to flush OutputStreams").printStackTrace();
-            e.printStackTrace();
-        }
-
-        try {
             dataOutputStream.close();
             outputStream.close();
             output.close();
