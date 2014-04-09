@@ -10,8 +10,8 @@ public class Main {
         Server.start(argumentsParser.getPort(), argumentsParser.getDirectory());
     }
 
-    private static void announceServerInitialization(int _port, String _directory) {
-        System.out.println("Server starting on port: " + _port + "\n" +
-                           "Serving: " + _directory);
+    private static void announceServerInitialization(int port, String directory) {
+        System.out.println("Server starting on port: " + port + "\n" +
+                           "Serving: " + directory);
     }
 }

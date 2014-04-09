@@ -8,14 +8,18 @@ public class Responder {
         PrintWriter output                = new PrintWriter(outputStream, false);
         DataOutputStream dataOutputStream = new DataOutputStream(new BufferedOutputStream(outputStream));
         writeResponseToOutputStream(dataOutputStream, response);
+        closeOutputStreams(dataOutputStream, outputStream);
+        output.close();
+    }
 
-        try {
-            dataOutputStream.close();
-            outputStream.close();
-            output.close();
-        } catch (IOException e) {
-            new Exception("Failed to close OutputStreams").printStackTrace();
-            e.printStackTrace();
+    private static void closeOutputStreams(OutputStream... outputStreams) {
+        for(OutputStream outputStream : outputStreams) {
+            try {
+                outputStream.close();
+            } catch (IOException e) {
+                new Exception("Unable to close OutputStream").printStackTrace();
+                e.printStackTrace();
+            }
         }
     }
 
