@@ -17,29 +17,18 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Server {
-    public  static final ILogger LOGGER = newLogger();
-    private static       String  directory;
+    public  static final ILogger LOGGER =  new Logger();
     public  static       ServerSocket serverSocket;
-    public  static       String  getDirectory() { return directory; }
 
-    public static void start(int port, String _directory) {
-        directory = _directory;
-        serverSocket = newServerSocket(port);
-
-        RouteInitializers.cobSpecRoutes();
+    public static void start(int port, String baseDirectory) {
+        RouteInitializers.cobSpecRoutes(baseDirectory, LOGGER);
         ExecutorService executor = Executors.newFixedThreadPool(16);
+
+        serverSocket = newServerSocket(port);
         while(!serverSocket.isClosed()) {
             ISocket socketWrapper = wrapClientSocket(serverSocket);
-            executor.execute(newThread(socketWrapper, newRequest(socketWrapper), newResponse()));
+            executor.execute(newThread(socketWrapper, newRequest(socketWrapper), new Response(), LOGGER));
         }
-    }
-
-    private static IResponse newResponse() {
-        return new Response();
-    }
-
-    private static ILogger newLogger() {
-        return new Logger();
     }
 
     private static ServerSocket newServerSocket(int port) {
@@ -64,12 +53,12 @@ public class Server {
         return socketWrapper;
     }
 
-    private static Runnable newThread(ISocket socketWrapper, IRequest request, IResponse response) {
-        return new Thread(wrapConnection(socketWrapper, request, response));
+    private static Runnable newThread(ISocket socketWrapper, IRequest request, IResponse response, ILogger logger) {
+        return new Thread(wrapConnection(socketWrapper, request, response, logger));
     }
 
-    private static ConnectionWrapper wrapConnection(ISocket socketWrapper, IRequest request, IResponse response) {
-        return new ConnectionWrapper(socketWrapper, request, response);
+    private static ConnectionWrapper wrapConnection(ISocket socketWrapper, IRequest request, IResponse response, ILogger logger) {
+        return new ConnectionWrapper(socketWrapper, request, response, logger);
     }
 
     private static IRequest newRequest(ISocket socketWrapper) {

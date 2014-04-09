@@ -1,5 +1,6 @@
 package main;
 
+import main.logging.ILogger;
 import main.requests.IRequest;
 import main.response.IResponse;
 import main.response.Responder;
@@ -11,15 +12,17 @@ public class ConnectionWrapper implements Runnable {
     private ISocket   socketWrapper;
     private IRequest  request;
     private IResponse response;
+    private ILogger   logger;
 
-    public ConnectionWrapper(ISocket socket, IRequest request, IResponse response) {
+    public ConnectionWrapper(ISocket socket, IRequest request, IResponse response, ILogger logger) {
         this.socketWrapper = socket;
         this.request       = request;
         this.response      = response;
+        this.logger        = logger;
     }
 
     public void run() {
-        Server.LOGGER.addEntry(topHeaderString(request));
+        logger.addEntry(topHeaderString(request));
         IRoute route = Router.route(request);
         route.buildResponse(request, response);
         Responder.respond(response, socketWrapper.socketOutputStream());
