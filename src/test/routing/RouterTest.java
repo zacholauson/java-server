@@ -3,7 +3,7 @@ package test.routing;
 import main.response.IResponse;
 import main.response.responses.Response;
 import main.routing.IRouter;
-import main.routing.Router;
+import main.routing.routers.Router;
 import main.routing.routes.FourOhFourRoute;
 import main.routing.routes.IRoute;
 import org.junit.Test;

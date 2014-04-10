@@ -1,39 +1,24 @@
 package main;
 
-import main.logging.ILogger;
-import main.requests.IRequest;
-import main.respond.IRespond;
-import main.response.IResponse;
-import main.routing.IRouter;
-import main.routing.routes.IRoute;
+import main.requestpackage.IRequestPackage;
+import main.responsepackage.IResponsePackage;
 import main.socket.ISocket;
 
 public class ConnectionWrapper implements Runnable {
-    private ISocket   socketWrapper;
-    private IRequest  request;
-    private IResponse response;
-    private ILogger   logger;
-    private IRouter   router;
-    private IRespond  responder;
+    private ISocket          socketWrapper;
+    private IRequestPackage  requestPackage;
+    private IResponsePackage responsePackage;
 
-    public ConnectionWrapper(ISocket socket, IRequest request, IResponse response, ILogger logger, IRouter router, IRespond responder) {
-        this.socketWrapper = socket;
-        this.request       = request;
-        this.response      = response;
-        this.logger        = logger;
-        this.router        = router;
-        this.responder     = responder;
+    public ConnectionWrapper(ISocket socketWrapper, IRequestPackage requestPackage, IResponsePackage responsePackage) {
+        this.socketWrapper   = socketWrapper;
+        this.requestPackage  = requestPackage;
+        this.responsePackage = responsePackage;
     }
 
     public void run() {
-        logger.addEntry(topHeaderString(request));
-        IRoute route = router.route(request);
-        route.buildResponse(request, response);
-        responder.respond(response);
+        requestPackage.logRequest();
+        requestPackage.routeRequest().buildResponse(requestPackage.request(), responsePackage.response());
+        responsePackage.respond();
         socketWrapper.close();
-    }
-
-    private String topHeaderString(IRequest request) {
-        return request.getHeaderString().split("\r\n")[0];
     }
 }

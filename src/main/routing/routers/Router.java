@@ -1,6 +1,7 @@
-package main.routing;
+package main.routing.routers;
 
 import main.requests.IRequest;
+import main.routing.IRouter;
 import main.routing.routes.IRoute;
 
 import java.util.HashMap;

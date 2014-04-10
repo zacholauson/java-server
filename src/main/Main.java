@@ -7,7 +7,8 @@ public class Main {
         ArgumentsParser argumentsParser = new ArgumentsParser(args);
         announceServerInitialization(argumentsParser.getPort(), argumentsParser.getDirectory());
 
-        Server.start(argumentsParser.getPort(), argumentsParser.getDirectory());
+        Server.init(argumentsParser.getPort(), argumentsParser.getDirectory());
+        Server.start();
     }
 
     private static void announceServerInitialization(int port, String directory) {

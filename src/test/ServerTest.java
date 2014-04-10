@@ -24,14 +24,13 @@ public class ServerTest {
                 assertFalse(endPoint.isUnresolved());
                 try {
                     socket.connect(endPoint, 2000);
-
-                    assertTrue(socket.isConnected());
-                    assertEquals(socket.getPort(), 9000);
                 } catch (IOException e) {
                     System.err.println("NOTE: Server must be running on port 9000, for ServerTest.clientConnectionTest to run\n");
                     e.printStackTrace();
                     fail();
                 }
+                assertTrue(socket.isConnected());
+                assertEquals(socket.getPort(), 9000);
             } else {
                 new Exception("End Point Unresolved").printStackTrace();
             }
