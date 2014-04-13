@@ -22,6 +22,7 @@ public class HTTPRequest implements IRequest {
     private HashMap<String, String>  params;
     private HashMap<String, Integer> range;
     private HashMap<String, String>  auth;
+    private HashMap<String, String>  cookies;
 
     public String getHeaderString()                   { return headerString; }
     public HashMap<String, String> getHeaders()       { return headers; }
@@ -31,6 +32,7 @@ public class HTTPRequest implements IRequest {
     public HashMap<String, String> getParams()        { return params; }
     public HashMap<String, Integer> getRange()        { return range; }
     public HashMap<String, String> getAuthorization() { return auth; }
+    public HashMap<String, String> getCookies()       { return cookies; }
 
     public HTTPRequest(InputStream _input) {
         try {
@@ -43,6 +45,7 @@ public class HTTPRequest implements IRequest {
             this.params = parseParams();
             this.range = parseRange();
             this.auth = parseAuthorization();
+            this.cookies = parseCookies();
         } catch (IOException e) {
             new Exception("Unable to create Request object based on request stream").printStackTrace();
             e.printStackTrace();
@@ -198,5 +201,18 @@ public class HTTPRequest implements IRequest {
             authMap.put(creds[0], creds[1]);
         }
         return authMap;
+    }
+
+    private HashMap<String, String> parseCookies() {
+        HashMap<String, String> cookiesMap = new HashMap<>();
+        String cookie = headers.get("Cookie");
+        if (cookie != null) {
+            String [] cookies = cookie.split(";");
+            for(String cookiePair : cookies) {
+                String [] cookieKeyVal = cookiePair.split("=");
+                cookiesMap.put(cookieKeyVal[0], cookieKeyVal[1]);
+            }
+        }
+        return cookiesMap;
     }
 }

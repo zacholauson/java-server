@@ -11,4 +11,5 @@ public interface IRequest {
     public HashMap<String, String>  getParams();
     public HashMap<String, Integer> getRange();
     public HashMap<String, String>  getAuthorization();
+    public HashMap<String, String>  getCookies();
 }

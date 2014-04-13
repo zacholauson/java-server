@@ -21,6 +21,7 @@ public class MockRequest implements IRequest {
     public HashMap<String, String> getParams()        { return buildMockParams(); }
     public HashMap<String, Integer> getRange()        { return new HashMap<>(); }
     public HashMap<String, String> getAuthorization() { return buildMockAuth(); }
+    public HashMap<String, String> getCookies()       { return new HashMap<>(); }
 
     private HashMap<String, String> buildMockParams() {
         HashMap<String, String> paramsMap = new HashMap<>();

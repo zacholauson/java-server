@@ -21,6 +21,11 @@ public class Response implements IResponse {
         headerBuilder.append(headerLine);
     }
 
+    public void addCookie(String key, String value) {
+        String headerLine = "Set-Cookie: " + key + "=" + value;
+        headerBuilder.append(headerLine);
+    }
+
     public String getHeaders() {
         return statusLine + headerBuilder.append(NEWLINE).toString();
     }
