@@ -12,7 +12,6 @@ import main.requests.requests.HTTPRequest;
 import main.respond.responders.Responder;
 import main.response.responses.Response;
 import main.routing.IRouter;
-import main.routing.RouteInitializer;
 import main.routing.routers.Router;
 import main.socket.ISocket;
 import main.socket.socketWrappers.SocketWrapper;
@@ -23,15 +22,15 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Server {
-    private  static final IRouter         ROUTER          = new Router();
-    private  static final ILogger         REQUESTLOGGER   = new Logger();
-    private  static final ILogger         SYSTEMLOGGER    = new SystemLogger();
-    public   static       ExecutorService executor = Executors.newFixedThreadPool(16);
-    public   static       ServerSocket    serverSocket;
+    public   static final IRouter         ROUTER        = new Router();
+    private  static final ILogger         REQUESTLOGGER = new Logger();
+    private  static final ILogger         SYSTEMLOGGER  = new SystemLogger();
+    private  static       ExecutorService executor      = Executors.newFixedThreadPool(16);
+    private  static       ServerSocket    serverSocket;
 
     public static void init(int port, String baseDirectory) {
-        new RouteInitializer(ROUTER, REQUESTLOGGER, baseDirectory).cobSpecRoutes();
         serverSocket = newServerSocket(port);
+        ShutdownWrapper.wrap(SYSTEMLOGGER);
     }
 
     public static void start() {
@@ -49,6 +48,7 @@ public class Server {
             serverSocket = new ServerSocket(port);
         } catch (IOException e) {
             SYSTEMLOGGER.addEntry(e.getMessage());
+            e.printStackTrace();
         }
         return serverSocket;
     }
@@ -59,6 +59,7 @@ public class Server {
             socketWrapper = new SocketWrapper(serverSocket.accept());
         } catch (IOException e) {
             SYSTEMLOGGER.addEntry(e.getMessage());
+            e.printStackTrace();
         }
         return socketWrapper;
     }

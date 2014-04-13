@@ -1,35 +1,32 @@
-package main.routing;
+package main.routing.routeinitializers;
 
 import main.authorization.authorizers.BasicAuthorization;
-
 import main.form.IForm;
 import main.form.forms.BaseForm;
-
 import main.logging.ILogger;
-import main.routing.routes.*;
+import main.routing.IRouteInitializer;
+import main.routing.IRouter;
+import main.routing.routes.DeleteFormDataRoute;
+import main.routing.routes.FileRoute;
+import main.routing.routes.FourOhFourRoute;
+import main.routing.routes.GetDirectoryRoute;
+import main.routing.routes.GetFormDataRoute;
+import main.routing.routes.GetParamsRoute;
+import main.routing.routes.LogsRoute;
+import main.routing.routes.MethodNotAllowedRoute;
+import main.routing.routes.OptionsRoute;
+import main.routing.routes.PostFormDataRoute;
+import main.routing.routes.PutFormDataRoute;
+import main.routing.routes.RedirectRoute;
+import main.routing.routes.SleepRoute;
 
-public class RouteInitializer {
-    private IRouter router;
-    private String  baseDirectory;
-    private ILogger logger;
-
-    public RouteInitializer(IRouter router, ILogger logger, String baseDirectory) {
-        this.router        = router;
-        this.logger        = logger;
-        this.baseDirectory = baseDirectory;
+public class CobSpecRoutes extends BaseRoutes implements IRouteInitializer {
+    public CobSpecRoutes(IRouter router, ILogger logger, String baseDirectory) {
+        super(router, logger, baseDirectory);
     }
 
-    public void basicRoutes() {
-        router.addFourOhFourRoute(new FourOhFourRoute());
-
-        router.addRoute("GET",     "/",               new TextRoute("Hello World"));
-        router.addRoute("GET",     "/image",          new FileRoute(baseDirectory, "/public/pic.png"));
-        router.addRoute("GET",     "/directory",      new GetDirectoryRoute(baseDirectory, "/public"));
-        router.addRoute("OPTIONS", "/method_options", new OptionsRoute("GET,HEAD,POST,OPTIONS,PUT"));
-        router.addRoute("GET",     "/sleep",          new SleepRoute(1000));
-    }
-
-    public void cobSpecRoutes() {
+    @Override
+    public void init() {
         router.addFourOhFourRoute(new FourOhFourRoute());
 
         router.addRoute("GET",        "/",                    new GetDirectoryRoute(baseDirectory, "/"));
